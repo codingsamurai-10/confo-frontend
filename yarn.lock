@@ -3466,6 +3466,11 @@
   "resolved" "https://registry.npmjs.org/content-type/-/content-type-1.0.4.tgz"
   "version" "1.0.4"
 
+"conversational-form@^1.0.2":
+  "integrity" "sha512-sm1BspLtyNlJzGFVMAeOhphzvaGnWNEzoTUmtkmSp10Ehb+Ns+1+w1XFC+tBtkqmXIOGndDCwdsDxVN/bRjEqA=="
+  "resolved" "https://registry.npmjs.org/conversational-form/-/conversational-form-1.0.2.tgz"
+  "version" "1.0.2"
+
 "convert-source-map@^0.3.3":
   "integrity" "sha1-8dgClQr33SYxof6+BZZVDIarMZA="
   "resolved" "https://registry.npmjs.org/convert-source-map/-/convert-source-map-0.3.5.tgz"
