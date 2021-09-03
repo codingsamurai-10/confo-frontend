@@ -1,47 +1,28 @@
 import React from "react";
 import { ConversationalForm } from "conversational-form";
 
-export default class MyForm extends React.Component {
+export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.formFields = [
-      {
-        tag: "input",
-        type: "text",
-        name: "firstname",
-        "cf-questions": "What is your firstname?",
-      },
-      {
-        tag: "input",
-        type: "text",
-        name: "lastname",
-        "cf-questions": "What is your lastname?",
-      },
-    ];
-
     this.submitCallback = this.submitCallback.bind(this);
+  }
+
+  submitCallback() {
+    this.cf.addRobotChatResponse("Thank you for filling out the form!");
   }
 
   componentDidMount() {
     this.cf = ConversationalForm.startTheConversation({
       options: {
         submitCallback: this.submitCallback,
-        preventAutoFocus: true,
-        // loadExternalStyleSheet: false
+        flowStepCallback: this.props.flowStepCallback,
       },
-      tags: this.formFields,
+      tags: this.props.formFields,
     });
-  }
-
-  submitCallback() {
-    var formDataSerialized = this.cf.getFormData(true);
-    console.log("Formdata, obj:", formDataSerialized);
-    this.cf.addRobotChatResponse(
-      "You are done. Check the dev console for form data output."
-    );
+    this.elem.appendChild(this.cf.el);
   }
 
   render() {
-    return <div></div>;
+    return <div ref={(ref) => (this.elem = ref)} className="form-container" />;
   }
 }
