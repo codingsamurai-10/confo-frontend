@@ -8,7 +8,7 @@ import LiveForm from "../LiveForm/LiveForm";
  */
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
-  const [formMetadata, setFormMetadata] = React.useState(null);
+  const formMetadata = React.useRef(null);
   const key = React.useRef("confo-form-");
 
   /**
@@ -17,22 +17,22 @@ export default function FormPage() {
   const fetchFormMetadata = async () => {
     const response = await fetch("http://localhost:5000/formMetadata");
     const data = await response.json();
-    setFormMetadata(data);
+    formMetadata.current = data;
   };
 
   React.useEffect(() => {
     fetchFormMetadata();
   }, []);
 
-  React.useEffect(() => {
-    /**
-     * Set localstorage key which will be used to access saved data unique to this form
-     */
-    const setLocalStorageKey = () => {
-      key.current += formMetadata.formID;
-      console.log(key);
-    };
+  /**
+   * Set localstorage key which will be used to access saved data unique to this form
+   */
+  const setLocalStorageKey = () => {
+    key.current += formMetadata.formID;
+    console.log(key);
+  };
 
+  React.useEffect(() => {
     if (formMetadata) {
       setLocalStorageKey();
     }
