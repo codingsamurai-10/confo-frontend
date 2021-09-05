@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * Live form that displays information as user fills it
+ * @param {Object} props Properties: formFields - Questions in the form, userData - Data filled by user
+ * @returns Div element containing questions and user data
+ */
 export default function LiveForm(props) {
   return (
     <div>
