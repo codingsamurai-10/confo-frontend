@@ -10,31 +10,33 @@ export default function FormPage() {
   const [userData, setUserData] = React.useState({});
   const key = React.useRef("confo-form-");
 
-  const chatTheme = "blue";
-  const formID = 12345;
-  const formFields = [
-    {
-      tag: "input",
-      type: "text",
-      name: "firstname",
-      "cf-questions": "What is your firstname?",
-    },
-    {
-      tag: "input",
-      type: "email",
-      name: "emailaddr",
-      "cf-questions": "What is your email?",
-    },
-    {
-      tag: "input",
-      type: "number",
-      name: "age",
-      "cf-questions": "What is your age?",
-    },
-  ];
+  const formMetadata = {
+    chatTheme: "blue",
+    formID: 12345,
+    formFields: [
+      {
+        tag: "input",
+        type: "text",
+        name: "firstname",
+        "cf-questions": "What is your firstname?",
+      },
+      {
+        tag: "input",
+        type: "email",
+        name: "emailaddr",
+        "cf-questions": "What is your email?",
+      },
+      {
+        tag: "input",
+        type: "number",
+        name: "age",
+        "cf-questions": "What is your age?",
+      },
+    ],
+  };
 
   React.useEffect(() => {
-    key.current += formID;
+    key.current += formMetadata.formID;
   }, []);
 
   /**
@@ -108,11 +110,11 @@ export default function FormPage() {
 
   return (
     <div>
-      <LiveForm userData={userData} formFields={formFields} />
+      <LiveForm userData={userData} formFields={formMetadata.formFields} />
       <Form
-        formFields={formFields}
+        formFields={formMetadata.formFields}
         flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
-        chatTheme={chatTheme}
+        chatTheme={formMetadata.chatTheme}
       />
     </div>
   );
