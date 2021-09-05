@@ -12,6 +12,14 @@ export default function FormPage() {
   const key = React.useRef("confo-form-");
 
   /**
+   * Set localstorage key which will be used to access saved data unique to this form
+   */
+  const setLocalStorageKey = () => {
+    key.current += formMetadata.formID;
+    console.log(key);
+  };
+
+  /**
    * Fetch form metadata from backend
    */
   const fetchFormMetadata = async () => {
@@ -23,6 +31,12 @@ export default function FormPage() {
   React.useEffect(() => {
     fetchFormMetadata();
   }, []);
+
+  React.useEffect(() => {
+    if (formMetadata) {
+      setLocalStorageKey();
+    }
+  }, [formMetadata]);
 
   /**
    * Validate email address input
