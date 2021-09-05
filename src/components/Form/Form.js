@@ -1,5 +1,6 @@
 import React from "react";
 import { ConversationalForm } from "conversational-form";
+import MicrophoneInputConfig from "./MicrophoneInputConfig";
 
 /**
  * Conversational form interface
@@ -27,6 +28,7 @@ export default class Form extends React.Component {
       options: {
         submitCallback: this.submitCallback,
         flowStepCallback: this.props.flowStepCallback,
+        microphoneInput: MicrophoneInputConfig
       },
       tags: this.props.formFields,
     });
