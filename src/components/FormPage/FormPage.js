@@ -102,6 +102,7 @@ export default function FormPage() {
    * @returns Boolean : Whether input is valid or not
    */
   const isInputValid = (dto) => {
+    console.log(dto.tag.type);
     if (dto.tag.type === "email") return isValidEmail(dto.text);
     if (dto.tag.type === "tel") return isValidPhoneNumber(dto.text);
     return true;
@@ -131,6 +132,32 @@ export default function FormPage() {
   };
 
   /**
+   * Helper function to get the fields checked in radio/checkbox input
+   * @param {Object} dto Information about input field and value
+   * @returns
+   */
+  const getCheckedFields = (dto) => {
+    const elements = dto.controlElements;
+    const checkedFields = [];
+    elements.forEach((element, index) => {
+      if (element.checked) checkedFields.push(index);
+    });
+    return checkedFields;
+  };
+
+  /**
+   * Save information for radio/checkbox input
+   * @param {Object} dto Information about input field and value
+   */
+  const saveGroupInfo = (dto) => {
+    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
+    const checkedFields = getCheckedFields(dto);
+    const newData = { [dto.tag.name]: checkedFields };
+    const finalData = Object.assign(existingData ? existingData : {}, newData);
+    localStorage.setItem(localStorageKey, JSON.stringify(finalData));
+  };
+
+  /**
    * Update the live form with the data input by the user and save it in local storage
    * @param {string} tagName Tag name for which data is received
    * @param {(string | number)} inputData Value entered by user
@@ -141,6 +168,15 @@ export default function FormPage() {
   };
 
   /**
+   * Handle input for radio and checkbox
+   * @param {Object} dto Information about input field and value
+   */
+  const handleGroupInput = (dto) => {
+    addToState(dto.tag.name, dto.text);
+    saveGroupInfo(dto);
+  };
+
+  /**
    * Callback when user submits a field
    * @param {Object} dto Contains the information about input field and value
    * @param {Function} success Callback function for success
@@ -148,7 +184,8 @@ export default function FormPage() {
    * @returns Success or Error
    */
   const flowStepCallback = (dto, success, error) => {
-    if (isInputValid(dto)) {
+    if (dto.tag.type === "group") handleGroupInput(dto);
+    else if (isInputValid(dto)) {
       handleInput(dto.tag.name, dto.text);
       return success();
     } else return error();
