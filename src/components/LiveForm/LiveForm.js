@@ -14,7 +14,7 @@ export default function LiveForm(props) {
           <li key={index}>
             <h3>{field["cf-questions"]}</h3>
             <p>
-              {props.userData.hasOwnProperty(field["name"])
+              {props.userData[field["name"]]
                 ? props.userData[field["name"]]
                 : ""}
             </p>

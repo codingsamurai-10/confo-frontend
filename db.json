@@ -4,10 +4,37 @@
     "formID": 12345,
     "formFields": [
       {
+        "tag": "fieldset",
+        "type": "Radio buttons",
+        "name": "beverage",
+        "cf-questions": "Choose your favourite beverage!",
+        "children": [
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Tea"
+          },
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Coffee"
+          },
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Water"
+          }
+        ]
+      },
+      {
         "tag": "input",
         "type": "text",
         "name": "firstname",
-        "cf-questions": "What is your firstname?"
+        "cf-questions": "What is your firstname?",
+        "cf-input-placeholder": "Eg. John, Mark, etc."
       },
       {
         "tag": "input",
