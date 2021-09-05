@@ -1,0 +1,26 @@
+{
+  "formMetadata": {
+    "chatTheme": "blue",
+    "formID": 12345,
+    "formFields": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "firstname",
+        "cf-questions": "What is your firstname?"
+      },
+      {
+        "tag": "input",
+        "type": "email",
+        "name": "emailaddr",
+        "cf-questions": "What is your email?"
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "age",
+        "cf-questions": "What is your age?"
+      }
+    ]
+  }
+}
