@@ -40,18 +40,22 @@ export default function FormPage() {
     prefillInputWithExistingData();
   };
 
-  /**
-   * Fetch form metadata from backend
-   */
   const fetchFormMetadata = async () => {
     const response = await fetch("http://localhost:5000/formMetadata");
     const data = await response.json();
     rawFormMetadata.current = data;
+  };
+
+  /**
+   * Fetch form metadata from backend and apply operations on it
+   */
+  const fetchAndProcessFormMetadata = async () => {
+    await fetchFormMetadata();
     processRawData();
   };
 
   React.useEffect(() => {
-    fetchFormMetadata();
+    fetchAndProcessFormMetadata();
   }, []);
 
   /**
@@ -76,6 +80,17 @@ export default function FormPage() {
   };
 
   /**
+   * Make changes in userData state
+   * @param {string} tagName Tag name for which data is received
+   * @param {string} inputData Value entered by user
+   */
+  const addToState = (tagName, inputData) => {
+    const temp = { [tagName]: inputData };
+    setUserData({ ...userData, ...temp });
+    setUserData(Object.assign(userData, temp));
+  };
+
+  /**
    * Save the info in local storage
    * @param {string} tagName Tag of input field
    * @param {string} inputData Value of input field
@@ -85,17 +100,6 @@ export default function FormPage() {
     const newData = { [tagName]: inputData };
     const finalData = Object.assign(existingData ? existingData : {}, newData);
     localStorage.setItem(key, JSON.stringify(finalData));
-  };
-
-  /**
-   * Make changes in userData state
-   * @param {string} tagName Tag name for which data is received
-   * @param {string} inputData Value entered by user
-   */
-  const addToState = (tagName, inputData) => {
-    const temp = { [tagName]: inputData };
-    setUserData({ ...userData, ...temp });
-    setUserData(Object.assign(userData, temp));
   };
 
   /**
