@@ -40,12 +40,31 @@ export default function FormPage() {
     });
   };
 
+  const addSubmitOption = () => {
+    const submitOption = {
+      tag: "fieldset",
+      "cf-questions":
+        "I confirm that all my responses are accurate to the best of my knowledge.",
+      name: "submit",
+      children: [
+        {
+          tag: "input",
+          type: "radio",
+          "cf-label": "Confirm",
+          value: "confirm",
+        },
+      ],
+    };
+    rawFormMetadata.current.formFields.push(submitOption);
+  };
+
   /**
    * Apply operations on raw metadata to generate localstorage key and prefill form with existing data
    */
   const processRawData = () => {
     setLocalStorageKey();
     prefillInputWithExistingData();
+    addSubmitOption();
     setFormMetadata(rawFormMetadata.current);
   };
 
