@@ -59,7 +59,7 @@ export default function FormPage() {
 
   React.useEffect(() => {
     fetchAndProcessFormMetadata();
-  });
+  }, []);
 
   /**
    * Validate email address input
