@@ -130,7 +130,7 @@ export default function FormPage() {
           <LiveForm userData={userData} formFields={formMetadata.formFields} />
           <Form
             formFields={formMetadata.formFields}
-            flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
+            flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
           />
         </div>
