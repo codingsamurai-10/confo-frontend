@@ -22,7 +22,7 @@ export default function FormPage() {
         field["value"] = existingData[field["name"]];
       }
     });
-    setFormMetadata(rawFormMetadata);
+    setFormMetadata(rawFormMetadata.current);
   };
 
   /**
@@ -126,15 +126,12 @@ export default function FormPage() {
     <div>
       {formMetadata && (
         <div>
-          {formMetadata.current.chatTheme}
-          <LiveForm
-            userData={userData}
-            formFields={formMetadata.current.formFields}
-          />
+          {formMetadata.chatTheme}
+          <LiveForm userData={userData} formFields={formMetadata.formFields} />
           <Form
-            formFields={formMetadata.current.formFields}
+            formFields={formMetadata.formFields}
             flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
-            chatTheme={formMetadata.current.chatTheme}
+            chatTheme={formMetadata.chatTheme}
           />
         </div>
       )}
