@@ -1,17 +1,28 @@
 import React from "react";
 import { ConversationalForm } from "conversational-form";
 
+/**
+ * Conversational form interface
+ */
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.submitCallback = this.submitCallback.bind(this);
+    this.initializeForm = this.initializeForm.bind(this);
   }
 
+  /**
+   * Function called when the form is submitted
+   * Gives a response to the user
+   */
   submitCallback() {
     this.cf.addRobotChatResponse("Thank you for filling out the form!");
   }
 
-  componentDidMount() {
+  /**
+   * Initialize the form and add it to DOM
+   */
+  initializeForm() {
     this.cf = ConversationalForm.startTheConversation({
       options: {
         submitCallback: this.submitCallback,
@@ -20,6 +31,10 @@ export default class Form extends React.Component {
       tags: this.props.formFields,
     });
     this.elem.appendChild(this.cf.el);
+  }
+
+  componentDidMount() {
+    this.initializeForm();
   }
 
   render() {
