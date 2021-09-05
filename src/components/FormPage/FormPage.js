@@ -126,7 +126,6 @@ export default function FormPage() {
     <div>
       {formMetadata && (
         <div>
-          {formMetadata.chatTheme}
           <LiveForm userData={userData} formFields={formMetadata.formFields} />
           <Form
             formFields={formMetadata.formFields}
