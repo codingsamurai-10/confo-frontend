@@ -5,7 +5,7 @@ import MicrophoneInputConfig from "./MicrophoneInputConfig";
 /**
  * Conversational form interface
  */
-export default class Form extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.submitCallback = this.submitCallback.bind(this);
@@ -44,3 +44,4 @@ export default class Form extends React.Component {
     return <div ref={(ref) => (this.elem = ref)} className="form-container" />;
   }
 }
+export default Form;
