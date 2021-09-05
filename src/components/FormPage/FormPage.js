@@ -40,6 +40,9 @@ export default function FormPage() {
     });
   };
 
+  /**
+   * Provide user an option to review responses before automatically submitting the form
+   */
   const addSubmitOption = () => {
     const submitOption = {
       tag: "fieldset",
@@ -91,6 +94,11 @@ export default function FormPage() {
     return re.test(String(email).toLowerCase());
   };
 
+  /**
+   * Validate phone number input
+   * @param {Number} tel
+   * @returns Boolean : Whether phone number is valid or not
+   */
   const isValidPhoneNumber = (tel) => {
     const re = /^[6-9]\d{9}$/;
     return re.test(Number(tel));
@@ -98,7 +106,7 @@ export default function FormPage() {
 
   /**
    * Function to check if the given input is valid or not. Maps the different types of inputs to different validation functions
-   * @param {(string | number)} dto
+   * @param {(string | Number)} dto
    * @returns Boolean : Whether input is valid or not
    */
   const isInputValid = (dto) => {
@@ -160,7 +168,7 @@ export default function FormPage() {
   /**
    * Update the live form with the data input by the user and save it in local storage
    * @param {string} tagName Tag name for which data is received
-   * @param {(string | number)} inputData Value entered by user
+   * @param {(string | Number)} inputData Value entered by user
    */
   const handleInput = (tagName, inputData) => {
     addToState(tagName, inputData);
