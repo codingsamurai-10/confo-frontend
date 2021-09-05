@@ -30,6 +30,7 @@ class Form extends React.Component {
         flowStepCallback: this.props.flowStepCallback,
         microphoneInput: MicrophoneInputConfig,
         theme: this.props.chatTheme,
+        showProgressBar: true,
       },
       tags: this.props.formFields,
     });
