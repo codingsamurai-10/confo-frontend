@@ -25,7 +25,7 @@ export default function FormPage() {
     },
     {
       tag: "input",
-      type: "text",
+      type: "number",
       name: "age",
       "cf-questions": "What is your age?",
     },
@@ -37,9 +37,9 @@ export default function FormPage() {
    * @returns Boolean : Whether email is valid or not
    */
   const isValidEmail = (email) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-      return true;
-    return false;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   };
 
   /**
