@@ -69,6 +69,11 @@ export default function FormPage() {
     return re.test(String(email).toLowerCase());
   };
 
+  const isValidPhoneNumber = (tel) => {
+    const re = /^[6-9]\d{9}$/;
+    return re.test(Number(tel));
+  };
+
   /**
    * Function to check if the given input is valid or not. Maps the different types of inputs to different validation functions
    * @param {(string | number)} dto
@@ -76,6 +81,7 @@ export default function FormPage() {
    */
   const isInputValid = (dto) => {
     if (dto.tag.type === "email") return isValidEmail(dto.text);
+    if (dto.tag.type === "tel") return isValidPhoneNumber(dto.text);
     return true;
   };
 
