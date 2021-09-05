@@ -15,7 +15,7 @@ export default function FormPage() {
   /**
    * Prefill values in the form if they already exist
    */
-  const setValuesFromExistingData = () => {
+  const prefillInputWithExistingData = () => {
     const existingData = JSON.parse(localStorage.getItem(key));
     rawFormMetadata.current.formFields.forEach((field) => {
       if (existingData && existingData.hasOwnProperty(field["name"])) {
@@ -37,7 +37,7 @@ export default function FormPage() {
    */
   const processRawData = () => {
     setLocalStorageKey();
-    setValuesFromExistingData();
+    prefillInputWithExistingData();
   };
 
   /**
