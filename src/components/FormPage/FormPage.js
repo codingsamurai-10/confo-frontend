@@ -192,8 +192,10 @@ export default function FormPage() {
    * @returns Success or Error
    */
   const flowStepCallback = (dto, success, error) => {
-    if (dto.tag.type === "group") handleGroupInput(dto);
-    else if (isInputValid(dto)) {
+    if (dto.tag.type === "group") {
+      handleGroupInput(dto);
+      return success();
+    } else if (isInputValid(dto)) {
       handleInput(dto.tag.name, dto.text);
       return success();
     } else return error();
