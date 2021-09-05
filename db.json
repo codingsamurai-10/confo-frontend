@@ -5,6 +5,32 @@
     "formFields": [
       {
         "tag": "fieldset",
+        "type": "radio",
+        "name": "beverage",
+        "cf-questions": "Choose your favourite beverage!",
+        "children": [
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Tea"
+          },
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Coffee"
+          },
+          {
+            "tag": "input",
+            "type": "radio",
+            "name": "beverage",
+            "cf-label": "Water"
+          }
+        ]
+      },
+      {
+        "tag": "fieldset",
         "type": "checkbox",
         "cf-input-placeholder": "Choose above",
         "cf-questions": "Choose courses",
@@ -27,32 +53,6 @@
             "type": "checkbox",
             "name": "courses",
             "cf-label": "CN"
-          }
-        ]
-      },
-      {
-        "tag": "fieldset",
-        "type": "radio",
-        "name": "beverage",
-        "cf-questions": "Choose your favourite beverage!",
-        "children": [
-          {
-            "tag": "input",
-            "type": "radio",
-            "name": "beverage",
-            "cf-label": "Tea"
-          },
-          {
-            "tag": "input",
-            "type": "radio",
-            "name": "beverage",
-            "cf-label": "Coffee"
-          },
-          {
-            "tag": "input",
-            "type": "radio",
-            "name": "beverage",
-            "cf-label": "Water"
           }
         ]
       },
