@@ -35,7 +35,11 @@ export default function FormPage() {
     const existingData = JSON.parse(localStorage.getItem(localStorageKey));
     rawFormMetadata.current.formFields.forEach((field) => {
       if (existingData && existingData.hasOwnProperty(field["name"])) {
-        field["value"] = existingData[field["name"]];
+        if (field.tag === "fieldset") {
+          existingData[field["name"]].forEach((checkedIndex) => {
+            field.children[checkedIndex]["checked"] = "checked";
+          });
+        } else field["value"] = existingData[field["name"]];
       }
     });
   };
