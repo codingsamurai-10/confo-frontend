@@ -11,15 +11,16 @@ export default function FormPage() {
   const [formMetadata, setFormMetadata] = React.useState(null);
   const key = React.useRef("confo-form-");
 
+  /**
+   * Fetch form metadata from backend
+   */
+  const fetchFormMetadata = async () => {
+    const response = await fetch("http://localhost:5000/formMetadata");
+    const data = await response.json();
+    setFormMetadata(data);
+  };
+
   React.useEffect(() => {
-    /**
-     * Fetch form metadata from backend
-     */
-    const fetchFormMetadata = async () => {
-      const response = await fetch("http://localhost:5000/formMetadata");
-      const data = await response.json();
-      setFormMetadata(data);
-    };
     fetchFormMetadata();
   }, []);
 
