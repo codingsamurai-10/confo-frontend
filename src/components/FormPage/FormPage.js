@@ -38,7 +38,6 @@ export default function FormPage() {
         field["value"] = existingData[field["name"]];
       }
     });
-    setFormMetadata(rawFormMetadata.current);
   };
 
   /**
@@ -47,6 +46,7 @@ export default function FormPage() {
   const processRawData = () => {
     setLocalStorageKey();
     prefillInputWithExistingData();
+    setFormMetadata(rawFormMetadata.current);
   };
 
   /**
@@ -59,7 +59,7 @@ export default function FormPage() {
 
   React.useEffect(() => {
     fetchAndProcessFormMetadata();
-  }, []);
+  });
 
   /**
    * Validate email address input
