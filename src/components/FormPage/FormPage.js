@@ -70,6 +70,11 @@ export default function FormPage() {
     localStorage.setItem(key, JSON.stringify(finalData));
   };
 
+  /**
+   * Make changes in userData state
+   * @param {string} tagName Tag name for which data is received
+   * @param {string} inputData Value entered by user
+   */
   const addToState = (tagName, inputData) => {
     const temp = { [tagName]: inputData };
     setUserData({ ...userData, ...temp });
@@ -81,7 +86,7 @@ export default function FormPage() {
    * @param {string} tagName Tag name for which data is received
    * @param {(string | number)} inputData Value entered by user
    */
-  const changeState = (tagName, inputData) => {
+  const handleInput = (tagName, inputData) => {
     addToState(tagName, inputData);
     saveInfo(tagName, inputData);
   };
@@ -96,7 +101,7 @@ export default function FormPage() {
   const flowStepCallback = (dto, success, error) => {
     // TODO validate data
     if (isInputValid(dto)) {
-      changeState(dto.tag.name, dto.text);
+      handleInput(dto.tag.name, dto.text);
       return success();
     } else return error();
   };
