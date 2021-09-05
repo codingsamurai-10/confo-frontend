@@ -8,35 +8,19 @@ import LiveForm from "../LiveForm/LiveForm";
  */
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
+  const [formMetadata, setFormMetadata] = React.useState(null);
   const key = React.useRef("confo-form-");
 
-  const formMetadata = {
-    chatTheme: "blue",
-    formID: 12345,
-    formFields: [
-      {
-        tag: "input",
-        type: "text",
-        name: "firstname",
-        "cf-questions": "What is your firstname?",
-      },
-      {
-        tag: "input",
-        type: "email",
-        name: "emailaddr",
-        "cf-questions": "What is your email?",
-      },
-      {
-        tag: "input",
-        type: "number",
-        name: "age",
-        "cf-questions": "What is your age?",
-      },
-    ],
-  };
-
   React.useEffect(() => {
-    key.current += formMetadata.formID;
+    /**
+     * Fetch form metadata from backend
+     */
+    const fetchFormMetadata = async () => {
+      const response = await fetch("http://localhost:5000/formMetadata");
+      const data = await response.json();
+      setFormMetadata(data);
+    };
+    fetchFormMetadata();
   }, []);
 
   /**
@@ -101,7 +85,6 @@ export default function FormPage() {
    * @returns Success or Error
    */
   const flowStepCallback = (dto, success, error) => {
-    // TODO validate data
     if (isInputValid(dto)) {
       handleInput(dto.tag.name, dto.text);
       return success();
@@ -110,12 +93,17 @@ export default function FormPage() {
 
   return (
     <div>
-      <LiveForm userData={userData} formFields={formMetadata.formFields} />
-      <Form
-        formFields={formMetadata.formFields}
-        flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
-        chatTheme={formMetadata.chatTheme}
-      />
+      {formMetadata && (
+        <div>
+          {formMetadata.chatTheme}
+          <LiveForm userData={userData} formFields={formMetadata.formFields} />
+          <Form
+            formFields={formMetadata.formFields}
+            flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
+            chatTheme={formMetadata.chatTheme}
+          />
+        </div>
+      )}
     </div>
   );
 }
