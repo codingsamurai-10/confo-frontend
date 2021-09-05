@@ -28,7 +28,8 @@ export default class Form extends React.Component {
       options: {
         submitCallback: this.submitCallback,
         flowStepCallback: this.props.flowStepCallback,
-        microphoneInput: MicrophoneInputConfig
+        microphoneInput: MicrophoneInputConfig,
+        theme: this.props.chatTheme,
       },
       tags: this.props.formFields,
     });

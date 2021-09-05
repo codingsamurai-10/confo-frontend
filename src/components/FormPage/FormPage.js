@@ -9,6 +9,7 @@ import LiveForm from "../LiveForm/LiveForm";
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
 
+  const chatTheme = "blue";
   const formFields = [
     {
       tag: "input",
@@ -60,6 +61,7 @@ export default function FormPage() {
       <Form
         formFields={formFields}
         flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
+        chatTheme={chatTheme}
       />
     </div>
   );
