@@ -49,7 +49,6 @@ export default function FormPage() {
    * @returns Boolean : Whether input is valid or not
    */
   const isInputValid = (dto) => {
-    console.log(dto);
     if (dto.tag.type === "email") return isValidEmail(dto.text);
     return true;
   };
