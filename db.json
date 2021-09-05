@@ -20,6 +20,12 @@
         "type": "number",
         "name": "age",
         "cf-questions": "What is your age?"
+      },
+      {
+        "tag": "input",
+        "type": "tel",
+        "name": "phone",
+        "cf-questions": "What is your phone number?"
       }
     ]
   }
