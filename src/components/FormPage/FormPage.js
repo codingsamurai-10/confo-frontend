@@ -13,6 +13,22 @@ export default function FormPage() {
   const localStorageKey = React.useRef("confo-form-");
 
   /**
+   * Fetch form metadata
+   */
+  const fetchFormMetadata = async () => {
+    const response = await fetch("http://localhost:5000/formMetadata");
+    const data = await response.json();
+    rawFormMetadata.current = data;
+  };
+
+  /**
+   * Set localstorage key which will be used to access saved data unique to this form
+   */
+  const setLocalStorageKey = () => {
+    localStorageKey.current += rawFormMetadata.current.formID;
+  };
+
+  /**
    * Prefill values in the form if they already exist
    */
   const prefillInputWithExistingData = () => {
@@ -26,24 +42,11 @@ export default function FormPage() {
   };
 
   /**
-   * Set localstorage key which will be used to access saved data unique to this form
-   */
-  const setLocalStorageKey = () => {
-    localStorageKey.current += rawFormMetadata.current.formID;
-  };
-
-  /**
    * Apply operations on raw metadata to generate localstorage key and prefill form with existing data
    */
   const processRawData = () => {
     setLocalStorageKey();
     prefillInputWithExistingData();
-  };
-
-  const fetchFormMetadata = async () => {
-    const response = await fetch("http://localhost:5000/formMetadata");
-    const data = await response.json();
-    rawFormMetadata.current = data;
   };
 
   /**
