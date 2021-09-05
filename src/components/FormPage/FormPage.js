@@ -10,6 +10,7 @@ export default function FormPage() {
   const [userData, setUserData] = React.useState({});
 
   const chatTheme = "blue";
+  const formID = 12345;
   const formFields = [
     {
       tag: "input",
@@ -54,7 +55,20 @@ export default function FormPage() {
   };
 
   /**
-   * Update the live form with the data input by the user
+   * Save the info in local storage
+   * @param {string} tagName Tag of input field
+   * @param {string} inputData Value of input field
+   */
+  const saveInfo = (tagName, inputData) => {
+    const key = `confo-form-${formID}`;
+    const existingData = JSON.parse(localStorage.getItem(key));
+    const newData = { [tagName]: inputData };
+    const finalData = Object.assign(existingData ? existingData : {}, newData);
+    localStorage.setItem(key, JSON.stringify(finalData));
+  };
+
+  /**
+   * Update the live form with the data input by the user and save it in local storage
    * @param {string} tagName Tag name for which data is received
    * @param {(string | number)} inputData Value entered by user
    */
@@ -62,6 +76,7 @@ export default function FormPage() {
     const temp = { [tagName]: inputData };
     setUserData({ ...userData, ...temp });
     setUserData(Object.assign(userData, temp)); // haxx
+    saveInfo(tagName, inputData);
   };
 
   /**
