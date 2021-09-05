@@ -10,13 +10,13 @@ export default function FormPage() {
   const [userData, setUserData] = React.useState({});
   const [formMetadata, setFormMetadata] = React.useState(null);
   const rawFormMetadata = React.useRef(null);
-  const key = React.useRef("confo-form-");
+  const localStorageKey = React.useRef("confo-form-");
 
   /**
    * Prefill values in the form if they already exist
    */
   const prefillInputWithExistingData = () => {
-    const existingData = JSON.parse(localStorage.getItem(key));
+    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
     rawFormMetadata.current.formFields.forEach((field) => {
       if (existingData && existingData.hasOwnProperty(field["name"])) {
         field["value"] = existingData[field["name"]];
@@ -29,7 +29,7 @@ export default function FormPage() {
    * Set localstorage key which will be used to access saved data unique to this form
    */
   const setLocalStorageKey = () => {
-    key.current += rawFormMetadata.current.formID;
+    localStorageKey.current += rawFormMetadata.current.formID;
   };
 
   /**
@@ -96,10 +96,10 @@ export default function FormPage() {
    * @param {string} inputData Value of input field
    */
   const saveInfo = (tagName, inputData) => {
-    const existingData = JSON.parse(localStorage.getItem(key));
+    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
     const newData = { [tagName]: inputData };
     const finalData = Object.assign(existingData ? existingData : {}, newData);
-    localStorage.setItem(key, JSON.stringify(finalData));
+    localStorage.setItem(localStorageKey, JSON.stringify(finalData));
   };
 
   /**
