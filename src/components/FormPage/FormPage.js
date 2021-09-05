@@ -19,9 +19,9 @@ export default function FormPage() {
     },
     {
       tag: "input",
-      type: "text",
-      name: "lastname",
-      "cf-questions": "What is your lastname?",
+      type: "email",
+      name: "emailaddr",
+      "cf-questions": "What is your email?",
     },
     {
       tag: "input",
@@ -32,11 +32,33 @@ export default function FormPage() {
   ];
 
   /**
+   * Validate email address input
+   * @param {string} email
+   * @returns Boolean : Whether email is valid or not
+   */
+  const isValidEmail = (email) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+      return true;
+    return false;
+  };
+
+  /**
+   * Function to check if the given input is valid or not. Maps the different types of inputs to different validation functions
+   * @param {(string | number)} dto
+   * @returns Boolean : Whether input is valid or not
+   */
+  const isInputValid = (dto) => {
+    console.log(dto);
+    if (dto.tag.type === "email") return isValidEmail(dto.text);
+    return true;
+  };
+
+  /**
    * Update the live form with the data input by the user
    * @param {string} tagName Tag name for which data is received
    * @param {(string | number)} inputData Value entered by user
    */
-  const changeState = async (tagName, inputData) => {
+  const changeState = (tagName, inputData) => {
     const temp = { [tagName]: inputData };
     setUserData({ ...userData, ...temp });
     setUserData(Object.assign(userData, temp)); // haxx
@@ -51,8 +73,10 @@ export default function FormPage() {
    */
   const flowStepCallback = (dto, success, error) => {
     // TODO validate data
-    changeState(dto.tag.name, dto.text);
-    return success();
+    if (isInputValid(dto)) {
+      changeState(dto.tag.name, dto.text);
+      return success();
+    } else return error();
   };
 
   return (
