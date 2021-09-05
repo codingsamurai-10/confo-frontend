@@ -8,8 +8,30 @@ import LiveForm from "../LiveForm/LiveForm";
  */
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
-  const formMetadata = React.useRef(null);
+  const [formMetadata, setFormMetadata] = React.useState(null);
+  const rawFormMetadata = React.useRef(null);
   const key = React.useRef("confo-form-");
+
+  /**
+   * Prefill values in the form if they already exist
+   */
+  const setValuesFromExistingData = () => {
+    const existingData = JSON.parse(localStorage.getItem(key));
+    rawFormMetadata.current.formFields.forEach((field) => {
+      if (existingData && existingData.hasOwnProperty(field["name"])) {
+        field["value"] = existingData[field["name"]];
+      }
+    });
+    setFormMetadata(rawFormMetadata);
+  };
+
+  /**
+   * Set localstorage key which will be used to access saved data unique to this form
+   */
+  const setLocalStorageKey = () => {
+    key.current += rawFormMetadata.current.formID;
+    setValuesFromExistingData();
+  };
 
   /**
    * Fetch form metadata from backend
@@ -17,26 +39,13 @@ export default function FormPage() {
   const fetchFormMetadata = async () => {
     const response = await fetch("http://localhost:5000/formMetadata");
     const data = await response.json();
-    formMetadata.current = data;
+    rawFormMetadata.current = data;
+    setLocalStorageKey();
   };
 
   React.useEffect(() => {
     fetchFormMetadata();
   }, []);
-
-  /**
-   * Set localstorage key which will be used to access saved data unique to this form
-   */
-  const setLocalStorageKey = () => {
-    key.current += formMetadata.formID;
-    console.log(key);
-  };
-
-  React.useEffect(() => {
-    if (formMetadata) {
-      setLocalStorageKey();
-    }
-  }, [formMetadata]);
 
   /**
    * Validate email address input
@@ -110,12 +119,15 @@ export default function FormPage() {
     <div>
       {formMetadata && (
         <div>
-          {formMetadata.chatTheme}
-          <LiveForm userData={userData} formFields={formMetadata.formFields} />
+          {formMetadata.current.chatTheme}
+          <LiveForm
+            userData={userData}
+            formFields={formMetadata.current.formFields}
+          />
           <Form
-            formFields={formMetadata.formFields}
+            formFields={formMetadata.current.formFields}
             flowStepCallback={(a, b, c) => flowStepCallback(a, b, c)}
-            chatTheme={formMetadata.chatTheme}
+            chatTheme={formMetadata.current.chatTheme}
           />
         </div>
       )}
