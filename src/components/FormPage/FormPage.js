@@ -2,6 +2,10 @@ import React from "react";
 import Form from "../Form/Form";
 import LiveForm from "../LiveForm/LiveForm";
 
+/**
+ * Form page interface
+ * @returns Div element containing the entire form functionality
+ */
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
 
@@ -26,13 +30,26 @@ export default function FormPage() {
     },
   ];
 
+  /**
+   * Update the live form with the data input by the user
+   * @param {string} tagName Tag name for which data is received
+   * @param {(string | number)} inputData Value entered by user
+   */
   const changeState = async (tagName, inputData) => {
     const temp = { [tagName]: inputData };
     setUserData({ ...userData, ...temp });
     setUserData(Object.assign(userData, temp)); // haxx
   };
 
+  /**
+   * Callback when user submits a field
+   * @param {Object} dto Contains the information about input field and value
+   * @param {Function} success Callback function for success
+   * @param {Function} error Callback function for failure
+   * @returns Success or Error
+   */
   const flowStepCallback = (dto, success, error) => {
+    // TODO validate data
     changeState(dto.tag.name, dto.text);
     return success();
   };
