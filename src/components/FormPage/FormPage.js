@@ -8,6 +8,7 @@ import LiveForm from "../LiveForm/LiveForm";
  */
 export default function FormPage() {
   const [userData, setUserData] = React.useState({});
+  const key = React.useRef("confo-form-");
 
   const chatTheme = "blue";
   const formID = 12345;
@@ -31,6 +32,10 @@ export default function FormPage() {
       "cf-questions": "What is your age?",
     },
   ];
+
+  React.useEffect(() => {
+    key.current += formID;
+  }, []);
 
   /**
    * Validate email address input
@@ -59,11 +64,16 @@ export default function FormPage() {
    * @param {string} inputData Value of input field
    */
   const saveInfo = (tagName, inputData) => {
-    const key = `confo-form-${formID}`;
     const existingData = JSON.parse(localStorage.getItem(key));
     const newData = { [tagName]: inputData };
     const finalData = Object.assign(existingData ? existingData : {}, newData);
     localStorage.setItem(key, JSON.stringify(finalData));
+  };
+
+  const addToState = (tagName, inputData) => {
+    const temp = { [tagName]: inputData };
+    setUserData({ ...userData, ...temp });
+    setUserData(Object.assign(userData, temp));
   };
 
   /**
@@ -72,9 +82,7 @@ export default function FormPage() {
    * @param {(string | number)} inputData Value entered by user
    */
   const changeState = (tagName, inputData) => {
-    const temp = { [tagName]: inputData };
-    setUserData({ ...userData, ...temp });
-    setUserData(Object.assign(userData, temp)); // haxx
+    addToState(tagName, inputData);
     saveInfo(tagName, inputData);
   };
 
