@@ -30,6 +30,13 @@ export default function FormPage() {
    */
   const setLocalStorageKey = () => {
     key.current += rawFormMetadata.current.formID;
+  };
+
+  /**
+   * Apply operations on raw metadata to generate localstorage key and prefill form with existing data
+   */
+  const processRawData = () => {
+    setLocalStorageKey();
     setValuesFromExistingData();
   };
 
@@ -40,7 +47,7 @@ export default function FormPage() {
     const response = await fetch("http://localhost:5000/formMetadata");
     const data = await response.json();
     rawFormMetadata.current = data;
-    setLocalStorageKey();
+    processRawData();
   };
 
   React.useEffect(() => {
