@@ -4,6 +4,12 @@
     "formID": 12345,
     "formFields": [
       {
+        "tag": "input",
+        "type": "text",
+        "name": "country",
+        "cf-questions": "What is your country?"
+      },
+      {
         "tag": "fieldset",
         "type": "radio",
         "name": "beverage",
