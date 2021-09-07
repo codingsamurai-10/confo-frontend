@@ -37,7 +37,7 @@ const HomePage = () => {
             <Card className={classes.card} component={Link} to={'/AdminForm'}>
               <CardHeader className={classes.card}
                 title="Go to Admin Page"
-                subheader="Make your own ConFo Chat i nterface"
+                subheader="Make your own ConFo Chat interface"
               />
             </Card>
           </Paper>
