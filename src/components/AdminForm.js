@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       width: '80%',
       margin: theme.spacing(1)
     },
+    padding:"10px"
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -72,14 +73,14 @@ const AdminForm = () => {
           <Form>
             <Container align="center" className={classes.container}>
               <FormControl required>
-                <Field as={TextField} variant="outlined" name={`formName`} className={classes.formControl} value={values.formName} align="left" label="Enter Form Name"></Field>
+                <FastField as={TextField} variant="outlined" name={`formName`} className={classes.formControl} value={values.formName} align="left" label="Enter Form Name"></FastField>
               </FormControl>
               <Paper className={classes.formControl}>
                 <FormControl required>
                   <InputLabel>Theme</InputLabel>
-                  <Field as={Select} name="chatTheme" value={values.chatTheme} align="left">{themes.map((theme, index) => (
+                  <FastField as={Select} name="chatTheme" value={values.chatTheme} align="left">{themes.map((theme, index) => (
                     <MenuItem value={theme.title}>{theme.title}</MenuItem>
-                  ))}</Field>
+                  ))}</FastField>
                 </FormControl>
               </Paper>
             </Container>
@@ -94,15 +95,15 @@ const AdminForm = () => {
                             <Typography align="left" color="primary" gutterBottom={true}>Question {index+1}</Typography>
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Tag</InputLabel>
-                              <Field as={Select} name={`formFields.${index}.tag`} value={formField.tag} align="left">
+                              <FastField as={Select} name={`formFields.${index}.tag`} value={formField.tag} align="left">
                                 {tags.map((tag, index) => (
                                   <MenuItem value={tag.title}>{tag.title}</MenuItem>
                                 ))}
-                              </Field>
+                              </FastField>
                             </FormControl>
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Type</InputLabel>
-                              <Field as={Select} name={`formFields.${index}.type`} value={formField.type} align="left">
+                              <FastField as={Select} name={`formFields.${index}.type`} value={formField.type} align="left">
                                 {(formField.tag === "input")? (typesInput.map((type, index) => (
                                   <MenuItem value={type.title}>{type.title}</MenuItem>
                                 ))):( (typesFieldset.map((type, index)=>(
@@ -110,7 +111,7 @@ const AdminForm = () => {
                                 )))
                                   
                                 )}
-                              </Field>
+                              </FastField>
                             </FormControl>
                             <FormControl required >
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
