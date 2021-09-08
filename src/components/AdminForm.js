@@ -128,8 +128,8 @@ const AdminForm = () => {
                                     {({ insert, remove }) => (
                                       <>
                                         <FormControl required className={classes.formControl}>
-                                          <Field as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.option`}>
-                                          </Field>
+                                          <FastField as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.["cf-label"]`}>
+                                          </FastField>
                                         </FormControl>
                                         
                                         <ButtonGroup>
