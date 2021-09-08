@@ -1,6 +1,6 @@
 import React from 'react';
-import { Formik, Field, Form, FieldArray } from 'formik';
-import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, Input, ButtonGroup } from '@material-ui/core';
+import { Formik, Field, Form, FieldArray, FastField } from 'formik';
+import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, Input, ButtonGroup, Typography, Divider } from '@material-ui/core';
 //tag = {input, fieldset}
 //type = {text, radio, checkbox, email, number, tel}
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 300,
+    minWidth: "auto",
     '& .MuiFormControl-root': {
       width: '80%',
       margin: theme.spacing(1)
@@ -30,12 +30,15 @@ const tags = [
   { title: "input" },
   { title: "fieldset" },
 ]
-const types = [
+const typesInput = [
   { title: "text" },
-  { title: "checkbox" },
   { title: "email" },
   { title: "number" },
   { title: "tel" },
+]
+const typesFieldset = [
+  {title:"radio"},
+  {title: "checkbox"}
 ]
 const themes = [
   { title: "black" },
@@ -45,6 +48,7 @@ const themes = [
 
 ]
 const initialValues = {
+  formName: "ConFo Meta",
   chatTheme: "black",
   formFields: [{
     tag: "", //input
@@ -60,12 +64,16 @@ const AdminForm = () => {
   const classes = useStyles();
   return (
     <div>
+    <Typography variant="h3" align="center" gutterBottom={true} color="primary">ConFo Admin Form</Typography>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}>
         {({ values }) => (
           <Form>
             <Container align="center" className={classes.container}>
+              <FormControl required>
+                <Field as={TextField} variant="outlined" name={`formName`} className={classes.formControl} value={values.formName} align="left" label="Enter Form Name"></Field>
+              </FormControl>
               <Paper className={classes.formControl}>
                 <FormControl required>
                   <InputLabel>Theme</InputLabel>
@@ -83,7 +91,7 @@ const AdminForm = () => {
                       values.formFields.map((formField, index) => (
                         <>
                           <Paper className={classes.formControl}>
-                            {console.log(values)}
+                            <Typography align="left" color="primary" gutterBottom={true}>Question {index+1}</Typography>
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Tag</InputLabel>
                               <Field as={Select} name={`formFields.${index}.tag`} value={formField.tag} align="left">
@@ -95,13 +103,18 @@ const AdminForm = () => {
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Type</InputLabel>
                               <Field as={Select} name={`formFields.${index}.type`} value={formField.type} align="left">
-                                {types.map((type, index) => (
+                                {(formField.tag === "input")? (typesInput.map((type, index) => (
                                   <MenuItem value={type.title}>{type.title}</MenuItem>
-                                ))}
+                                ))):( (typesFieldset.map((type, index)=>(
+                                  <MenuItem value={type.title}>{type.title}</MenuItem>
+                                )))
+                                  
+                                )}
                               </Field>
                             </FormControl>
                             <FormControl required >
-                              <Field as={TextField} className={classes.formControl} required name={`formFields.${index}.["cf-questions"]`} label="Enter your Question" variant="outlined" align="left"></Field>
+                              <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
+                              <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.["cf-questions"]`} label="Enter your Question" variant="outlined" align="left"></FastField>
                             </FormControl>
                             {formField.tag && formField.tag === 'fieldset' &&
                               (<>
@@ -116,9 +129,9 @@ const AdminForm = () => {
                                       <>
                                         <FormControl required className={classes.formControl}>
                                           <Field as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.option`}>
-                                            {console.log(child)}
                                           </Field>
                                         </FormControl>
+                                        
                                         <ButtonGroup>
                                           <Button className={classes.formControl} variant="text" color="primary" onClick={() => { insert(childIndex + 1, { "cf-label": "" }) }}>Add Option Label</Button>
                                           <Button className={classes.formControl} variant="text" color="secondary" onClick={() => remove(childIndex)}>Remove Option Label</Button>
@@ -131,6 +144,7 @@ const AdminForm = () => {
                               </>
                               )
                             }
+                            <Divider/>
                             <ButtonGroup>
                               <Button className={classes.formControl} variant="contained" color="primary" onClick={() => { insert(index + 1, initialValues.formFields[0]) }}>Add Question Field</Button>
                               <Button className={classes.formControl} variant="contained" color="secondary" onClick={() => remove(index)}>Remove this Field</Button>
