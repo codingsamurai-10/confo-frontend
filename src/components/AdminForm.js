@@ -153,14 +153,27 @@ const AdminForm = () => {
                                       }}>Confirm Answer Type </Button>
                                       {formField.hasOwnProperty('dateRange') && (
                                         <>
-                                          <FastField as={TextField} label="Min Date" name={`formFields.${index}.dateRange[0]`} value={formField.dateRange[0]} type="date" className={classes.formControl} InputLabelProps={{shrink: true,}} />
-                                          <FastField as={TextField} label="Max Date" name={`formFields.${index}.dateRange[1]`} value={formField.dateRange[1]} type="date" className={classes.formControl} InputLabelProps={{shrink: true,}} />
-                                          <FastField as={TextField} label="Min Time" name={`formFields.${index}.timeRange[0]`} value={formField.timeRange[0]} type="time" className={classes.formControl}  InputLabelProps={{shrink: true,}} />
-                                          <FastField as={TextField} label="Max Time" name={`formFields.${index}.timeRange[1]`} value={formField.timeRange[1]} type="time" className={classes.formControl} InputLabelProps={{shrink: true,}} />
+                                          <FastField as={TextField} label="Min Date" name={`formFields.${index}.dateRange[0]`} value={formField.dateRange[0]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <FastField as={TextField} label="Max Date" name={`formFields.${index}.dateRange[1]`} value={formField.dateRange[1]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <FastField as={TextField} label="Min Time" name={`formFields.${index}.timeRange[0]`} value={formField.timeRange[0]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <FastField as={TextField} label="Max Time" name={`formFields.${index}.timeRange[1]`} value={formField.timeRange[1]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
                                         </>
                                       )}
                                     </>
-                                    ))
+                                    )) || ((formField.answerFormat === 'Number') &&
+                                      (<>
+                                        <Button variant="outlined" className={classes.formControlNew} onClick={() => {
+                                          let newObject = JSON.parse(JSON.stringify(formField));
+                                          replace(index, Object.assign({ numberRange:['','']}, newObject));
+                                        }}>Confirm Answer Type </Button>
+                                        {formField.hasOwnProperty('numberRange') && (
+                                          <>
+                                            <FastField as={TextField} label="Min Input" name={`formFields.${index}.numberRange[0]`} value={formField.numberRange[0]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                            <FastField as={TextField} label="Max Input" name={`formFields.${index}.numberRange[1]`} value={formField.numberRange[1]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          </>
+                                        )}
+                                      </>
+                                      ))
                             }
                             <Divider />
                             <ButtonGroup>
