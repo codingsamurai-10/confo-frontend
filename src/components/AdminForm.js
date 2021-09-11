@@ -1,8 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, FieldArray, FastField } from 'formik';
 import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, Input, ButtonGroup, Typography, Divider } from '@material-ui/core';
-//tag = {input, fieldset}
-//type = {text, radio, checkbox, email, number, tel}
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiFormControl-root': {
@@ -27,39 +25,20 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px"
   }
 }));
-const tags = [
-  { title: "input" },
-  { title: "fieldset" },
-]
-const typesInput = [
-  { title: "text" },
-  { title: "email" },
-  { title: "number" },
-  { title: "tel" },
-]
-const typesFieldset = [
-  {title:"radio"},
-  {title: "checkbox"}
-]
-const themes = [
-  { title: "black" },
-  { title: "blue" },
-  { title: "light" },
-  { title: "cyan" },
-
-]
+const tags = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
+const themes = ['Black', 'Blue', 'Cyan', 'Green'];
 const initialValues = {
   formName: "ConFo Meta",
   chatTheme: "black",
   formFields: [{
-    tag: "", //input
-    type: "", //text
-    name: "", //country
-    "cf-questions": "" //what is your country?
+    label: "", 
+    answerFormat: "",
+    name: ""
   }]
 }
 function onSubmit(values) {
-  alert(JSON.stringify(values, null, 2));
+  console.log("Form metadata\n");
+  console.log(JSON.stringify(values, null, 2));
 }
 const AdminForm = () => {
   const classes = useStyles();
@@ -68,8 +47,9 @@ const AdminForm = () => {
     <Typography variant="h3" align="center" gutterBottom={true} color="primary">ConFo Admin Form</Typography>
       <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}>
-        {({ values }) => (
+        onSubmit={onSubmit}
+        >
+        {({ values}) => (
           <Form>
             <Container align="center" className={classes.container}>
               <FormControl required>
@@ -79,7 +59,7 @@ const AdminForm = () => {
                 <FormControl required>
                   <InputLabel>Theme</InputLabel>
                   <FastField as={Select} name="chatTheme" value={values.chatTheme} align="left">{themes.map((theme, index) => (
-                    <MenuItem value={theme.title}>{theme.title}</MenuItem>
+                    <MenuItem value={theme}>{theme}</MenuItem>
                   ))}</FastField>
                 </FormControl>
               </Paper>
@@ -94,34 +74,22 @@ const AdminForm = () => {
                           <Paper className={classes.formControl}>
                             <Typography align="left" color="primary" gutterBottom={true}>Question {index+1}</Typography>
                             <FormControl required className={classes.formControl}>
-                              <InputLabel>Tag</InputLabel>
-                              <FastField as={Select} name={`formFields.${index}.tag`} value={formField.tag} align="left">
+                              <InputLabel>Answer Type</InputLabel>
+                              <FastField as={Select} name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
                                 {tags.map((tag, index) => (
-                                  <MenuItem value={tag.title}>{tag.title}</MenuItem>
+                                  <MenuItem value={tag}>{tag}</MenuItem>
                                 ))}
                               </FastField>
                             </FormControl>
-                            <FormControl required className={classes.formControl}>
-                              <InputLabel>Type</InputLabel>
-                              <FastField as={Select} name={`formFields.${index}.type`} value={formField.type} align="left">
-                                {(formField.tag === "input")? (typesInput.map((type, index) => (
-                                  <MenuItem value={type.title}>{type.title}</MenuItem>
-                                ))):( (typesFieldset.map((type, index)=>(
-                                  <MenuItem value={type.title}>{type.title}</MenuItem>
-                                )))
-                                  
-                                )}
-                              </FastField>
-                            </FormControl>
-                            <FormControl required >
+                            <FormControl required > 
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
-                              <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.["cf-questions"]`} label="Enter your Question" variant="outlined" align="left"></FastField>
+                              <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.label`} label="Enter your Question" variant="outlined" align="left"></FastField>
                             </FormControl>
-                            {formField.tag && formField.tag === 'fieldset' &&
+                            {formField.tag && (formField.tag === 'Radio' || formField.tag === 'Checkbox') &&
                               (<>
                                 <Button variant="outlined" className={classes.formControl} onClick={() => {
                                   let newObject = JSON.parse(JSON.stringify(formField)); //TODO: simplify this
-                                  replace(index, Object.assign({ children: [{ "cf-label": "" }] }, newObject));
+                                  replace(index, Object.assign({ children: [{ label: "" }] }, newObject));
                                 }}>Confirm MultiSelect Field</Button>
                                 {formField.hasOwnProperty('children') && formField.children.map((child, childIndex) =>
                                 (
@@ -129,12 +97,12 @@ const AdminForm = () => {
                                     {({ insert, remove }) => (
                                       <>
                                         <FormControl required className={classes.formControl}>
-                                          <FastField as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.["cf-label"]`}>
+                                          <FastField as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.label`}>
                                           </FastField>
                                         </FormControl>
                                         
                                         <ButtonGroup>
-                                          <Button className={classes.formControl} variant="text" color="primary" onClick={() => { insert(childIndex + 1, { "cf-label": "" }) }}>Add Option Label</Button>
+                                          <Button className={classes.formControl} variant="text" color="primary" onClick={() => { insert(childIndex + 1, { label: "" }) }}>Add Option Label</Button>
                                           <Button className={classes.formControl} variant="text" color="secondary" onClick={() => remove(childIndex)}>Remove Option Label</Button>
                                         </ButtonGroup>
                                       </>
