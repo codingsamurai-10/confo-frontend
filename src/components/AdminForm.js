@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, FieldArray, FastField } from 'formik';
-import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, Input, ButtonGroup, Typography, Divider } from '@material-ui/core';
+import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, Checkbox, FormControlLabel, Switch, } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiFormControl-root': {
@@ -8,14 +8,24 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1)
     }
   },
-  formControl: {
+  formControl: {  
     margin: theme.spacing(1),
     minWidth: "auto",
     '& .MuiFormControl-root': {
       width: '80%',
       margin: theme.spacing(1)
     },
-    padding:"10px"
+    padding: "10px"
+  },
+  formControlNew: {
+    display:"block",
+    margin: theme.spacing(1),
+    minWidth: "auto",
+    '& .MuiFormControl-root': {
+      width: '80%',
+      margin: theme.spacing(1)
+    },
+    padding: "10px"
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -23,17 +33,27 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: "#FFF8E5",
     padding: "20px"
+  },
+  questionIndex: {
+    display: "inline",
+    float: "left"
+  },
+  optionalSwitch: {
+    display: "inline",
+    float: "right"
   }
 }));
 const tags = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
 const themes = ['Black', 'Blue', 'Cyan', 'Green'];
 const initialValues = {
   formName: "ConFo Meta",
-  chatTheme: "black",
+  chatTheme: "Black",
   formFields: [{
-    label: "", 
+    label: "",
     answerFormat: "",
-    name: ""
+    name: "",
+    optional: false,
+    exampleInput: ""
   }]
 }
 function onSubmit(values) {
@@ -44,12 +64,12 @@ const AdminForm = () => {
   const classes = useStyles();
   return (
     <div>
-    <Typography variant="h3" align="center" gutterBottom={true} color="primary">ConFo Admin Form</Typography>
+      <Typography variant="h3" align="center" gutterBottom={true} color="primary">ConFo Admin Form</Typography>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
-        >
-        {({ values}) => (
+      >
+        {({ values }) => (
           <Form>
             <Container align="center" className={classes.container}>
               <FormControl required>
@@ -71,8 +91,11 @@ const AdminForm = () => {
                     values.formFields && values.formFields.length > 0 ? (
                       values.formFields.map((formField, index) => (
                         <>
+                          {console.log(formField)}
                           <Paper className={classes.formControl}>
-                            <Typography align="left" color="primary" gutterBottom={true}>Question {index+1}</Typography>
+                            <Typography className={classes.questionIndex} align="left" color="primary" gutterBottom={true}>Question {index + 1}</Typography>
+                            <FormControlLabel control={<FastField as={Switch} checked={formField.optional} name={`formFields.${index}.optional`}></FastField>} className={classes.optionalSwitch} label="Optional">
+                            </FormControlLabel>
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Answer Type</InputLabel>
                               <FastField as={Select} name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
@@ -81,39 +104,50 @@ const AdminForm = () => {
                                 ))}
                               </FastField>
                             </FormControl>
-                            <FormControl required > 
+                            <FormControl >
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.label`} label="Enter your Question" variant="outlined" align="left"></FastField>
+                              <FastField as={TextField} className={classes.formControl} name={`formFields.${index}.exampleInput`} label="Example Input" variant="outlined" align="left"></FastField>
                             </FormControl>
-                            {formField.tag && (formField.tag === 'Radio' || formField.tag === 'Checkbox') &&
-                              (<>
-                                <Button variant="outlined" className={classes.formControl} onClick={() => {
-                                  let newObject = JSON.parse(JSON.stringify(formField)); //TODO: simplify this
-                                  replace(index, Object.assign({ children: [{ label: "" }] }, newObject));
-                                }}>Confirm MultiSelect Field</Button>
-                                {formField.hasOwnProperty('children') && formField.children.map((child, childIndex) =>
-                                (
-                                  <FieldArray name={`formFields.${index}.children`}>
-                                    {({ insert, remove }) => (
-                                      <>
-                                        <FormControl required className={classes.formControl}>
-                                          <FastField as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.children.${childIndex}.label`}>
-                                          </FastField>
-                                        </FormControl>
-                                        
-                                        <ButtonGroup>
-                                          <Button className={classes.formControl} variant="text" color="primary" onClick={() => { insert(childIndex + 1, { label: "" }) }}>Add Option Label</Button>
-                                          <Button className={classes.formControl} variant="text" color="secondary" onClick={() => remove(childIndex)}>Remove Option Label</Button>
-                                        </ButtonGroup>
-                                      </>
+                            {formField.answerFormat &&
+                              ((formField.answerFormat === 'Radio' || formField.answerFormat === 'Checkbox') &&
+                                (<>
+                                  <Button variant="outlined" className={classes.formControlNew} onClick={() => {
+                                    let newObject = JSON.parse(JSON.stringify(formField)); //TODO: simplify this
+                                    replace(index, Object.assign({ valueOptions: [''] }, newObject));
+                                  }}>Confirm MultiSelect Field</Button>
+                                  {formField.hasOwnProperty('valueOptions') && formField.valueOptions.map((child, childIndex) =>
+                                  (
+                                    <FieldArray name={`formFields.${index}.valueOptions`}>
+                                      {({ insert, remove }) => (
+                                        <>
+                                          <FormControl required className={classes.formControl}>
+                                            <FastField as={TextField} required label="Option Label" variant="outlined" name={`formFields.${index}.valueOptions.${childIndex}`}>
+                                            </FastField>
+                                          </FormControl>
+                                          <ButtonGroup>
+                                            <Button className={classes.formControl} variant="text" color="primary" onClick={() => { insert(childIndex + 1, '') }}>Add Option Label</Button>
+                                            <Button className={classes.formControl} variant="text" color="secondary" onClick={() => remove(childIndex)}>Remove Option Label</Button>
+                                          </ButtonGroup>
+                                        </>
+                                      )}
+                                    </FieldArray>
+                                  ))
+                                  }
+                                </>
+                                )) || (formField.answerFormat === 'Phone Number' &&
+                                  ( <>
+                                    <Button variant="outlined" className={classes.formControlNew} onClick={() => {
+                                    let newObject = JSON.parse(JSON.stringify(formField));
+                                    replace(index, Object.assign({validateByOtp: false}, newObject));
+                                  }}>Confirm Answer Type</Button>
+                                  {formField.hasOwnProperty('validateByOtp') && (
+                                    <FormControlLabel control={<FastField as={Switch} checked={formField.validateByOtp} name={`formFields.${index}.validateByOtp`}/>} className={classes.formControl} label="Validate by OTP" />
                                     )}
-                                  </FieldArray>
-                                ))
-                                }
-                              </>
-                              )
+                                    </>
+                                  ))
                             }
-                            <Divider/>
+                            <Divider />
                             <ButtonGroup>
                               <Button className={classes.formControl} variant="contained" color="primary" onClick={() => { insert(index + 1, initialValues.formFields[0]) }}>Add Question Field</Button>
                               <Button className={classes.formControl} variant="contained" color="secondary" onClick={() => remove(index)}>Remove this Field</Button>
