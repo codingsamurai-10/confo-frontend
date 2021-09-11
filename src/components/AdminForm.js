@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, FieldArray, FastField } from 'formik';
-import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, Checkbox, FormControlLabel, Switch, } from '@material-ui/core';
+import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, FormControlLabel, Switch, } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiFormControl-root': {
@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1)
     }
   },
-  formControl: {  
+  formControl: {
     margin: theme.spacing(1),
     minWidth: "auto",
     '& .MuiFormControl-root': {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px"
   },
   formControlNew: {
-    display:"block",
+    display: "block",
     margin: theme.spacing(1),
     minWidth: "auto",
     '& .MuiFormControl-root': {
@@ -113,7 +113,7 @@ const AdminForm = () => {
                               ((formField.answerFormat === 'Radio' || formField.answerFormat === 'Checkbox') &&
                                 (<>
                                   <Button variant="outlined" className={classes.formControlNew} onClick={() => {
-                                    let newObject = JSON.parse(JSON.stringify(formField)); //TODO: simplify this
+                                    let newObject = JSON.parse(JSON.stringify(formField));
                                     replace(index, Object.assign({ valueOptions: [''] }, newObject));
                                   }}>Confirm MultiSelect Field</Button>
                                   {formField.hasOwnProperty('valueOptions') && formField.valueOptions.map((child, childIndex) =>
@@ -135,17 +135,32 @@ const AdminForm = () => {
                                   ))
                                   }
                                 </>
-                                )) || (formField.answerFormat === 'Phone Number' &&
-                                  ( <>
+                                )) || ((formField.answerFormat === 'Phone Number' || formField.answerFormat === 'Email') &&
+                                  (<>
                                     <Button variant="outlined" className={classes.formControlNew} onClick={() => {
-                                    let newObject = JSON.parse(JSON.stringify(formField));
-                                    replace(index, Object.assign({validateByOtp: false}, newObject));
-                                  }}>Confirm Answer Type</Button>
-                                  {formField.hasOwnProperty('validateByOtp') && (
-                                    <FormControlLabel control={<FastField as={Switch} checked={formField.validateByOtp} name={`formFields.${index}.validateByOtp`}/>} className={classes.formControl} label="Validate by OTP" />
+                                      let newObject = JSON.parse(JSON.stringify(formField));
+                                      replace(index, Object.assign({ validateByOtp: false }, newObject));
+                                    }}>Confirm Answer Type</Button>
+                                    {formField.hasOwnProperty('validateByOtp') && (
+                                      <FormControlLabel control={<FastField as={Switch} checked={formField.validateByOtp} name={`formFields.${index}.validateByOtp`} />} className={classes.formControl} label="Validate by OTP" />
                                     )}
+                                  </>
+                                  )) || ((formField.answerFormat === 'DateTime') &&
+                                    (<>
+                                      <Button variant="outlined" className={classes.formControlNew} onClick={() => {
+                                        let newObject = JSON.parse(JSON.stringify(formField));
+                                        replace(index, Object.assign({ dateRange: ['', ''], timeRange: ['', ''] }, newObject));
+                                      }}>Confirm Answer Type </Button>
+                                      {formField.hasOwnProperty('dateRange') && (
+                                        <>
+                                          <FastField as={TextField} label="Min Date" name={`formFields.${index}.dateRange[0]`} value={formField.dateRange[0]} type="date" className={classes.formControl} InputLabelProps={{shrink: true,}} />
+                                          <FastField as={TextField} label="Max Date" name={`formFields.${index}.dateRange[1]`} value={formField.dateRange[1]} type="date" className={classes.formControl} InputLabelProps={{shrink: true,}} />
+                                          <FastField as={TextField} label="Min Time" name={`formFields.${index}.timeRange[0]`} value={formField.timeRange[0]} type="time" className={classes.formControl}  InputLabelProps={{shrink: true,}} />
+                                          <FastField as={TextField} label="Max Time" name={`formFields.${index}.timeRange[1]`} value={formField.timeRange[1]} type="time" className={classes.formControl} InputLabelProps={{shrink: true,}} />
+                                        </>
+                                      )}
                                     </>
-                                  ))
+                                    ))
                             }
                             <Divider />
                             <ButtonGroup>
