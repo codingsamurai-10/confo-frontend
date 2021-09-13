@@ -1,6 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
-import { Formik, Form, FieldArray, FastField, ErrorMessage } from 'formik';
+import get from 'lodash.get';
+import { Formik, Form, FieldArray, FastField, Field, ErrorMessage } from 'formik';
 import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, FormControlLabel, Switch, } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +47,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 const tags = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
 const themes = ['Black', 'Blue', 'Cyan', 'Green'];
-yup.addMethod(yup.array, 'unique', function (message, mapper = a => a) {
-  return this.test('unique', message, function (list) {
-    return list.length === new Set(list.map(mapper)).size;
+yup.addMethod(yup.array, "unique", function(message, path) {
+  return this.test("unique", message, function(list) {
+    const mapper = x => get(x, path);
+    const set = [...new Set(list.map(mapper))];
+    const isUnique = list.length === set.length;
+    if (isUnique) {
+      return true;
+    }
+
+    const idx = list.findIndex((l, i) => mapper(l) !== set[i]);
+    return this.createError({ path: `[${idx}].${path}`, message });
   });
 });
 const validationSchema = yup.object().shape({
@@ -56,7 +65,7 @@ const validationSchema = yup.object().shape({
     yup.object().shape({
       name: yup.string()
     })
-  ).unique('Not a unique Name', a => a.name)
+  ).unique(true, 'name')
 });
 const initialValues = {
   formName: "ConFo Meta",
@@ -83,7 +92,7 @@ const AdminForm = () => {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {({ values, errors, touched }) => (
           <Form>
             <Container align="center" className={classes.container}>
               <FormControl required>
@@ -118,8 +127,7 @@ const AdminForm = () => {
                               </FastField>
                             </FormControl>
                             <FormControl >
-                              <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
-                              <ErrorMessage name={`formFields`} />
+                              <Field as={TextField} className={classes.formControl} error={touched.formFields && touched.formFields[index] && touched.formFields[index].name && errors[index] && errors[index].name} helperText={errors[index]?'Not unique':''} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></Field>
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.label`} label="Enter your Question" variant="outlined" align="left"></FastField>
                               <FastField as={TextField} className={classes.formControl} name={`formFields.${index}.exampleInput`} label="Example Input" variant="outlined" align="left"></FastField>
                             </FormControl>
