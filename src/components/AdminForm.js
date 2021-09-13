@@ -1,7 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
 import get from 'lodash.get';
-import { Formik, Form, FieldArray, FastField, Field, ErrorMessage } from 'formik';
+import { Formik, Form, FieldArray, FastField, Field } from 'formik';
 import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, FormControlLabel, Switch, } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,17 +45,16 @@ const useStyles = makeStyles((theme) => ({
     float: "right"
   }
 }));
-const tags = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
+const answerFormats = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
 const themes = ['Black', 'Blue', 'Cyan', 'Green'];
-yup.addMethod(yup.array, "unique", function(message, path) {
-  return this.test("unique", message, function(list) {
+yup.addMethod(yup.array, "unique", function (message, path) {
+  return this.test("unique", message, function (list) {
     const mapper = x => get(x, path);
     const set = [...new Set(list.map(mapper))];
     const isUnique = list.length === set.length;
     if (isUnique) {
       return true;
     }
-
     const idx = list.findIndex((l, i) => mapper(l) !== set[i]);
     return this.createError({ path: `[${idx}].${path}`, message });
   });
@@ -114,6 +113,7 @@ const AdminForm = () => {
                     values.formFields && values.formFields.length > 0 ? (
                       values.formFields.map((formField, index) => (
                         <>
+                          {console.log(formField)}
                           <Paper className={classes.formControl}>
                             <Typography className={classes.questionIndex} align="left" color="primary" gutterBottom={true}>Question {index + 1}</Typography>
                             <FormControlLabel control={<FastField as={Switch} checked={formField.optional} name={`formFields.${index}.optional`}></FastField>} className={classes.optionalSwitch} label="Optional">
@@ -121,13 +121,13 @@ const AdminForm = () => {
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Answer Type</InputLabel>
                               <FastField as={Select} defaultValue="" name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
-                                {tags.map((tag, index) => (
-                                  <MenuItem value={tag}>{tag}</MenuItem>
+                                {answerFormats.map((answerFormat, index) => (
+                                  <MenuItem value={answerFormat}>{answerFormat}</MenuItem>
                                 ))}
                               </FastField>
                             </FormControl>
                             <FormControl >
-                              <Field as={TextField} className={classes.formControl} error={touched.formFields && touched.formFields[index] && touched.formFields[index].name && errors[index] && errors[index].name} helperText={errors[index]?'Not unique':''} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></Field>
+                              <Field as={TextField} className={classes.formControl} error={touched.formFields && touched.formFields[index] && touched.formFields[index].name && errors[index] && errors[index].name} helperText={errors[index] ? 'Not unique' : ''} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></Field>
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.label`} label="Enter your Question" variant="outlined" align="left"></FastField>
                               <FastField as={TextField} className={classes.formControl} name={`formFields.${index}.exampleInput`} label="Example Input" variant="outlined" align="left"></FastField>
                             </FormControl>
@@ -174,10 +174,10 @@ const AdminForm = () => {
                                       }}>Confirm Answer Type </Button>
                                       {formField.hasOwnProperty('dateRange') && (
                                         <>
-                                          <FastField as={TextField} label="Min Date" name={`formFields.${index}.dateRange[0]`} value={formField.dateRange[0]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
-                                          <FastField as={TextField} label="Max Date" name={`formFields.${index}.dateRange[1]`} value={formField.dateRange[1]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
-                                          <FastField as={TextField} label="Min Time" name={`formFields.${index}.timeRange[0]`} value={formField.timeRange[0]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
-                                          <FastField as={TextField} label="Max Time" name={`formFields.${index}.timeRange[1]`} value={formField.timeRange[1]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <Field as={TextField} label="Min Date" name={`formFields.${index}.dateRange[0]`} value={formField.dateRange[0]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <Field as={TextField} error={((Date.parse(formField.dateRange[1]) - Date.parse(formField.dateRange[0])) < 0)} helperText={(Date.parse(formField.dateRange[1]) - Date.parse(formField.dateRange[0]) < 0) ? 'Enter Max Date greater than Min Date' : ''} label="Max Date" name={`formFields.${index}.dateRange[1]`} value={formField.dateRange[1]} type="date" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <Field as={TextField} label="Min Time" name={`formFields.${index}.timeRange[0]`} value={formField.timeRange[0]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                          <Field as={TextField} error={formField.timeRange[1] < formField.timeRange[0]} helperText={(formField.timeRange[1] < formField.timeRange[0]) ? 'Enter Max Time greater than Min Time' : ''} label="Max Time" name={`formFields.${index}.timeRange[1]`} value={formField.timeRange[1]} type="time" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
                                         </>
                                       )}
                                     </>
