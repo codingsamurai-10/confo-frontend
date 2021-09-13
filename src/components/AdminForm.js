@@ -185,12 +185,12 @@ const AdminForm = () => {
                                       (<>
                                         <Button variant="outlined" className={classes.formControlNew} onClick={() => {
                                           let newObject = JSON.parse(JSON.stringify(formField));
-                                          replace(index, Object.assign({ numberRange: ['', ''] }, newObject));
+                                          replace(index, Object.assign({ numberRange: [0, 0] }, newObject));
                                         }}>Confirm Answer Type </Button>
                                         {formField.hasOwnProperty('numberRange') && (
                                           <>
-                                            <Field as={TextField} label="Min Input" name={`formFields.${index}.numberRange[0]`} value={formField.numberRange[0]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
-                                            <Field as={TextField} label="Max Input" error={formField.numberRange[1] < formField.numberRange[0]} helperText={(formField.numberRange[1] < formField.numberRange[0])?'Enter Max Input greater than Min Input':''} name={`formFields.${index}.numberRange[1]`} value={formField.numberRange[1]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                            <Field as={TextField} required label="Min Input" name={`formFields.${index}.numberRange[0]`} value={formField.numberRange[0]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
+                                            <Field as={TextField} required label="Max Input" error={formField.numberRange[1] < formField.numberRange[0]} helperText={(formField.numberRange[1] < formField.numberRange[0]) ? 'Enter Max Input greater than Min Input' : ''} name={`formFields.${index}.numberRange[1]`} value={formField.numberRange[1]} type="number" className={classes.formControl} InputLabelProps={{ shrink: true, }} />
                                           </>
                                         )}
                                       </>
