@@ -1,5 +1,6 @@
 import React from 'react';
-import { Formik, Field, Form, FieldArray, FastField } from 'formik';
+import * as yup from 'yup';
+import { Formik, Form, FieldArray, FastField, ErrorMessage } from 'formik';
 import { Container, FormControl, InputLabel, makeStyles, Paper, Select, TextField, MenuItem, Button, ButtonGroup, Typography, Divider, FormControlLabel, Switch, } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 const tags = ['Text Input', 'Phone Number', 'Email', 'Number', 'File Upload', 'Address', 'DateTime', 'Radio', 'Checkbox'];
 const themes = ['Black', 'Blue', 'Cyan', 'Green'];
+yup.addMethod(yup.array, 'unique', function (message, mapper = a => a) {
+  return this.test('unique', message, function (list) {
+    return list.length === new Set(list.map(mapper)).size;
+  });
+});
+const validationSchema = yup.object().shape({
+  formFields: yup.array().of(
+    yup.object().shape({
+      name: yup.string()
+    })
+  ).unique('Not a unique Name', a => a.name)
+});
 const initialValues = {
   formName: "ConFo Meta",
   chatTheme: "Black",
@@ -68,6 +81,7 @@ const AdminForm = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
+        validationSchema={validationSchema}
       >
         {({ values }) => (
           <Form>
@@ -91,14 +105,13 @@ const AdminForm = () => {
                     values.formFields && values.formFields.length > 0 ? (
                       values.formFields.map((formField, index) => (
                         <>
-                          {console.log(formField)}
                           <Paper className={classes.formControl}>
                             <Typography className={classes.questionIndex} align="left" color="primary" gutterBottom={true}>Question {index + 1}</Typography>
                             <FormControlLabel control={<FastField as={Switch} checked={formField.optional} name={`formFields.${index}.optional`}></FastField>} className={classes.optionalSwitch} label="Optional">
                             </FormControlLabel>
                             <FormControl required className={classes.formControl}>
                               <InputLabel>Answer Type</InputLabel>
-                              <FastField as={Select} name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
+                              <FastField as={Select} defaultValue="" name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
                                 {tags.map((tag, index) => (
                                   <MenuItem value={tag}>{tag}</MenuItem>
                                 ))}
@@ -106,10 +119,11 @@ const AdminForm = () => {
                             </FormControl>
                             <FormControl >
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.name`} label="Name of Field" variant="outlined" align="left"></FastField>
+                              <ErrorMessage name={`formFields`} />
                               <FastField as={TextField} className={classes.formControl} required name={`formFields.${index}.label`} label="Enter your Question" variant="outlined" align="left"></FastField>
                               <FastField as={TextField} className={classes.formControl} name={`formFields.${index}.exampleInput`} label="Example Input" variant="outlined" align="left"></FastField>
                             </FormControl>
-                            {formField.answerFormat &&
+                            {(formField.answerFormat) &&
                               ((formField.answerFormat === 'Radio' || formField.answerFormat === 'Checkbox') &&
                                 (<>
                                   <Button variant="outlined" className={classes.formControlNew} onClick={() => {
@@ -134,8 +148,7 @@ const AdminForm = () => {
                                     </FieldArray>
                                   ))
                                   }
-                                </>
-                                )) || ((formField.answerFormat === 'Phone Number' || formField.answerFormat === 'Email') &&
+                                </>)) || ((formField.answerFormat === 'Phone Number' || formField.answerFormat === 'Email') &&
                                   (<>
                                     <Button variant="outlined" className={classes.formControlNew} onClick={() => {
                                       let newObject = JSON.parse(JSON.stringify(formField));
@@ -164,7 +177,7 @@ const AdminForm = () => {
                                       (<>
                                         <Button variant="outlined" className={classes.formControlNew} onClick={() => {
                                           let newObject = JSON.parse(JSON.stringify(formField));
-                                          replace(index, Object.assign({ numberRange:['','']}, newObject));
+                                          replace(index, Object.assign({ numberRange: ['', ''] }, newObject));
                                         }}>Confirm Answer Type </Button>
                                         {formField.hasOwnProperty('numberRange') && (
                                           <>
