@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router";
 import AdminForm from "./components/AdminForm";
 import FormPage from "./components/FormPage/FormPage";
 import HomePage from "./components/HomePage";
-import Test from "./components/Form/Test";
 
 const Routing = () => {
   return (
