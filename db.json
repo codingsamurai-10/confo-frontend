@@ -5,6 +5,12 @@
     "formFields": [
       {
         "tag": "input",
+        "type": "file",
+        "name": "resume",
+        "cf-questions": "Please upload your resume"
+      },
+      {
+        "tag": "input",
         "type": "text",
         "name": "country",
         "cf-questions": "What is your country?"
