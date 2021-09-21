@@ -67,7 +67,8 @@
         "type": "text",
         "name": "firstname",
         "cf-questions": "What is your firstname?",
-        "cf-input-placeholder": "Eg. John, Mark, etc."
+        "cf-input-placeholder": "Eg. John, Mark, etc.",
+        "required": "true"
       },
       {
         "tag": "input",
