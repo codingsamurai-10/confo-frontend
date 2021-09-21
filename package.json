@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
+    "@uppy/react": "^2.0.3",
     "conversational-form": "^1.0.2",
     "formik": "^2.2.9",
     "lodash.get": "^4.4.2",

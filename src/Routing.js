@@ -3,17 +3,19 @@ import { Route, Switch } from "react-router";
 import AdminForm from "./components/AdminForm";
 import FormPage from "./components/FormPage/FormPage";
 import HomePage from "./components/HomePage";
+import Test from "./components/Test";
 
 const Routing = () => {
-    return ( 
-        <Fade>
-            <Switch>
-                <Route exact path='/' component={HomePage}/>
-                <Route exact path='/FormPage' component={FormPage}/>
-                <Route exact path='/AdminForm' component={AdminForm}/>
-            </Switch>
-        </Fade>
-     );
-}
- 
+  return (
+    <Fade>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/FormPage" component={FormPage} />
+        <Route exact path="/AdminForm" component={AdminForm} />
+        <Route exact path="/Test" component={Test} />
+      </Switch>
+    </Fade>
+  );
+};
+
 export default Routing;
