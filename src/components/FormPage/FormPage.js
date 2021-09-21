@@ -114,7 +114,6 @@ export default function FormPage() {
    * @returns Boolean : Whether input is valid or not
    */
   const isInputValid = (dto) => {
-    console.log(dto.tag.type);
     if (dto.tag.type === "email") return isValidEmail(dto.text);
     if (dto.tag.type === "tel") return isValidPhoneNumber(dto.text);
     return true;
