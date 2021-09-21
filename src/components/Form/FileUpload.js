@@ -6,7 +6,7 @@ import "@uppy/dashboard/dist/style.css";
 import { DashboardModal, useUppy } from "@uppy/react";
 import GoogleDrive from "@uppy/google-drive";
 
-export default function Test() {
+export default function FileUpload() {
   const uppy = useUppy(() => {
     return new Uppy()
       .use(GoogleDrive, {
