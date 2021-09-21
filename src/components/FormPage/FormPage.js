@@ -145,7 +145,7 @@ export default function FormPage() {
   /**
    * Helper function to get the fields checked in radio/checkbox input
    * @param {Object} dto Information about input field and value
-   * @returns
+   * @returns {Array} Array of checked fields
    */
   const getCheckedFields = (dto) => {
     const elements = dto.controlElements;

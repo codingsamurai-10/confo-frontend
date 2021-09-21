@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
     "conversational-form": "^1.0.2",
+    "formik": "^2.2.9",
+    "lodash.get": "^4.4.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3"
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
