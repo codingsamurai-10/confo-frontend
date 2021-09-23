@@ -76,7 +76,7 @@ yup.addMethod(yup.array, "unique", function (message, path) {
 	});
 });
 const validationSchema = yup.object().shape({
-	formFields: yup
+	questions: yup
 		.array()
 		.of(
 			yup.object().shape({
@@ -90,7 +90,7 @@ const initialValues = {
 	chatTheme: "Black",
 	description: "",
 	disableEditResponses: true,
-	formFields: [
+	questions: [
 		{
 			label: "",
 			answerFormat: "",
@@ -98,7 +98,7 @@ const initialValues = {
 			optional: false,
 			exampleInput: "",
 		},
-	],
+	]
 };
 function onSubmit(values) {
 	console.log("Form metadata\n");
@@ -157,24 +157,24 @@ const AdminForm = () => {
 								</FormControl>
 							</Paper>
 						</Container>
-						<FieldArray name="formFields">
+						<FieldArray name="questions">
 							{({ insert, remove, replace }) => (
 								<Container align="center" className={classes.container}>
-									{values.formFields && values.formFields.length > 0 ? (
-										values.formFields.map((formField, index) => (
+									{values.questions && values.questions.length > 0 ? (
+										values.questions.map((formField, index) => (
 											<>
 												<Paper className={classes.formControl}>
 													<Typography className={classes.questionIndex} align="left" color="primary" gutterBottom={true}>
 														Question {index + 1}
 													</Typography>
 													<FormControlLabel
-														control={<FastField as={Switch} checked={formField.optional} name={`formFields.${index}.optional`}></FastField>}
+														control={<FastField as={Switch} checked={formField.optional} name={`questions.${index}.optional`}></FastField>}
 														className={classes.optionalSwitch}
 														label="Optional"
 													></FormControlLabel>
 													<FormControl required className={classes.formControl}>
 														<InputLabel>Answer Type</InputLabel>
-														<FastField as={Select} defaultValue="" name={`formFields.${index}.answerFormat`} value={formField.tag} align="left">
+														<FastField as={Select} defaultValue="" name={`questions.${index}.answerFormat`} value={formField.tag} align="left">
 															{answerFormats.map((answerFormat, index) => (
 																<MenuItem value={answerFormat}>{answerFormat}</MenuItem>
 															))}
@@ -184,10 +184,10 @@ const AdminForm = () => {
 														<Field
 															as={TextField}
 															className={classes.formControl}
-															error={touched.formFields && touched.formFields[index] && touched.formFields[index].name && errors[index] && errors[index].name}
+															error={touched.questions && touched.questions[index] && touched.questions[index].name && errors[index] && errors[index].name}
 															helperText={errors[index] ? "Not unique" : ""}
 															required
-															name={`formFields.${index}.name`}
+															name={`questions.${index}.name`}
 															label="Name of Field"
 															variant="outlined"
 															align="left"
@@ -196,7 +196,7 @@ const AdminForm = () => {
 															as={TextField}
 															className={classes.formControl}
 															required
-															name={`formFields.${index}.label`}
+															name={`questions.${index}.label`}
 															label="Enter your Question"
 															variant="outlined"
 															align="left"
@@ -204,7 +204,7 @@ const AdminForm = () => {
 														<FastField
 															as={TextField}
 															className={classes.formControl}
-															name={`formFields.${index}.exampleInput`}
+															name={`questions.${index}.exampleInput`}
 															label="Example Input"
 															variant="outlined"
 															align="left"
@@ -224,7 +224,7 @@ const AdminForm = () => {
 															</Button>
 															{formField.hasOwnProperty("valueOptions") &&
 																formField.valueOptions.map((child, childIndex) => (
-																	<FieldArray name={`formFields.${index}.valueOptions`}>
+																	<FieldArray name={`questions.${index}.valueOptions`}>
 																		{({ insert, remove }) => (
 																			<>
 																				<FormControl required className={classes.formControl}>
@@ -233,7 +233,7 @@ const AdminForm = () => {
 																						required
 																						label="Option Label"
 																						variant="outlined"
-																						name={`formFields.${index}.valueOptions.${childIndex}`}
+																						name={`questions.${index}.valueOptions.${childIndex}`}
 																					></FastField>
 																				</FormControl>
 																				<ButtonGroup>
@@ -271,7 +271,7 @@ const AdminForm = () => {
 																</Button>
 																{formField.hasOwnProperty("validateByOtp") && (
 																	<FormControlLabel
-																		control={<FastField as={Switch} checked={formField.validateByOtp} name={`formFields.${index}.validateByOtp`} />}
+																		control={<FastField as={Switch} checked={formField.validateByOtp} name={`questions.${index}.validateByOtp`} />}
 																		className={classes.formControl}
 																		label="Validate by OTP"
 																	/>
@@ -295,7 +295,7 @@ const AdminForm = () => {
 																		<Field
 																			as={TextField}
 																			label="Min Date"
-																			name={`formFields.${index}.dateRange[0]`}
+																			name={`questions.${index}.dateRange[0]`}
 																			value={formField.dateRange[0]}
 																			type="date"
 																			className={classes.formControl}
@@ -310,7 +310,7 @@ const AdminForm = () => {
 																					: ""
 																			}
 																			label="Max Date"
-																			name={`formFields.${index}.dateRange[1]`}
+																			name={`questions.${index}.dateRange[1]`}
 																			value={formField.dateRange[1]}
 																			type="date"
 																			className={classes.formControl}
@@ -319,7 +319,7 @@ const AdminForm = () => {
 																		<Field
 																			as={TextField}
 																			label="Min Time"
-																			name={`formFields.${index}.timeRange[0]`}
+																			name={`questions.${index}.timeRange[0]`}
 																			value={formField.timeRange[0]}
 																			type="time"
 																			className={classes.formControl}
@@ -330,7 +330,7 @@ const AdminForm = () => {
 																			error={formField.timeRange[1] < formField.timeRange[0]}
 																			helperText={formField.timeRange[1] < formField.timeRange[0] ? "Enter Max Time greater than Min Time" : ""}
 																			label="Max Time"
-																			name={`formFields.${index}.timeRange[1]`}
+																			name={`questions.${index}.timeRange[1]`}
 																			value={formField.timeRange[1]}
 																			type="time"
 																			className={classes.formControl}
@@ -358,7 +358,7 @@ const AdminForm = () => {
 																			as={TextField}
 																			required
 																			label="Min Input"
-																			name={`formFields.${index}.numberRange[0]`}
+																			name={`questions.${index}.numberRange[0]`}
 																			value={formField.numberRange[0]}
 																			type="number"
 																			className={classes.formControl}
@@ -370,7 +370,7 @@ const AdminForm = () => {
 																			label="Max Input"
 																			error={formField.numberRange[1] < formField.numberRange[0]}
 																			helperText={formField.numberRange[1] < formField.numberRange[0] ? "Enter Max Input greater than Min Input" : ""}
-																			name={`formFields.${index}.numberRange[1]`}
+																			name={`questions.${index}.numberRange[1]`}
 																			value={formField.numberRange[1]}
 																			type="number"
 																			className={classes.formControl}
@@ -387,7 +387,7 @@ const AdminForm = () => {
 															variant="contained"
 															color="primary"
 															onClick={() => {
-																insert(index + 1, initialValues.formFields[0]);
+																insert(index + 1, initialValues.questions[0]);
 															}}
 														>
 															Add Question Field
