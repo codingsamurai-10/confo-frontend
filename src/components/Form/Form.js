@@ -29,10 +29,10 @@ class Form extends React.Component {
         submitCallback: this.submitCallback,
         flowStepCallback: this.props.flowStepCallback,
         microphoneInput: MicrophoneInputConfig,
-        theme: this.props.chatTheme,
+        theme: this.props.chatTheme.toLowerCase(),
         showProgressBar: true,
       },
-      tags: this.props.formFields,
+      tags: this.props.questions,
     });
     this.elem.appendChild(this.cf.el);
   }

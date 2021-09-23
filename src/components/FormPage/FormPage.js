@@ -26,7 +26,7 @@ export default function FormPage() {
    * Set localstorage key which will be used to access saved data unique to this form
    */
   const setLocalStorageKey = () => {
-    localStorageKey.current += rawFormMetadata.current.formID;
+    localStorageKey.current += rawFormMetadata.current.id;
   };
 
   /**
@@ -34,7 +34,7 @@ export default function FormPage() {
    */
   const prefillInputWithExistingData = () => {
     const existingData = JSON.parse(localStorage.getItem(localStorageKey));
-    rawFormMetadata.current.formFields.forEach((field) => {
+    rawFormMetadata.current.questions.forEach((field) => {
       if (existingData && existingData.hasOwnProperty(field["name"])) {
         if (field.tag === "fieldset") {
           existingData[field["name"]].forEach((checkedIndex) => {
@@ -63,7 +63,7 @@ export default function FormPage() {
         },
       ],
     };
-    rawFormMetadata.current.formFields.push(submitOption);
+    rawFormMetadata.current.questions.push(submitOption);
   };
 
   /**
@@ -209,9 +209,9 @@ export default function FormPage() {
     <div>
       {formMetadata && (
         <div>
-          <LiveForm userData={userData} formFields={formMetadata.formFields} />
+          <LiveForm userData={userData} questions={formMetadata.questions} />
           <Form
-            formFields={formMetadata.formFields}
+            questions={formMetadata.questions}
             flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
           />

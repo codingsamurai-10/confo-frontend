@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 /**
  * Live form that displays information as user fills it
- * @param {Object} props Properties: formFields - Questions in the form, userData - Data filled by user
+ * @param {Object} props Properties: questions - Questions in the form, userData - Data filled by user
  * @returns Div element containing questions and user data
  */
 export function SimpleMediaQuery() {
@@ -97,7 +97,7 @@ export default function LiveForm(props) {
           <Paper elevation={3}>
             <Typography variant="h9" align="left" color="primary" gutterBottom>
               <ol type="1">
-                {props.formFields.map((field, index) => (
+                {props.questions.map((field, index) => (
                   <li key={index}>
                     <Typography variant="h9" color="primary" gutterBottom>
                       <h3>{field["cf-questions"]}</h3>
