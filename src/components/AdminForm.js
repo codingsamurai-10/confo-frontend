@@ -110,10 +110,20 @@ const initialValues = {
     },
   ],
 };
-function onSubmit(values) {
+const onSubmit = async (values) => {
   console.log("Form metadata\n");
-  console.log(JSON.stringify(values, null, 2));
-}
+  const json = JSON.stringify(values, null, 2);
+  console.log(json);
+  const res = await fetch("http://localhost:5000/api/form/metadata", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: json,
+  });
+  console.log(res);
+};
 const AdminForm = () => {
   const classes = useStyles();
   return (
