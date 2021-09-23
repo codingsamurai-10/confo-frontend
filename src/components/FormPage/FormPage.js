@@ -1,5 +1,6 @@
 import React from "react";
 import Form from "../Form/Form";
+import FileUpload from "../Form/FileUpload";
 import LiveForm from "../LiveForm/LiveForm";
 
 /**
@@ -214,6 +215,7 @@ export default function FormPage() {
             flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
           />
+          <FileUpload open={true} />
         </div>
       )}
     </div>
