@@ -87,7 +87,7 @@ const validationSchema = yup.object().shape({
 });
 const initialValues = {
 	formName: "ConFo Meta",
-	chatTheme: "Black",
+	chatTheme: "Blue",
 	description: "",
 	disableEditResponses: true,
 	questions: [
