@@ -17,7 +17,9 @@ export default function FormPage() {
    * Fetch form metadata
    */
   const fetchFormMetadata = async () => {
-    const response = await fetch("http://localhost:5000/formMetadata");
+    const response = await fetch(
+      "http://localhost:5000/api/form/614cce95535fcd45db6800e6"
+    );
     const data = await response.json();
     rawFormMetadata.current = data;
   };

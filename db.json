@@ -1,8 +1,8 @@
 {
   "formMetadata": {
     "chatTheme": "blue",
-    "formID": 12345,
-    "formFields": [
+    "id": 12345,
+    "questions": [
       {
         "tag": "input",
         "type": "file",
