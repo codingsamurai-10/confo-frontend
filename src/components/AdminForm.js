@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 const answerFormats = ["Text Input", "Phone Number", "Email", "Number", "File Upload", "Address", "DateTime", "Radio", "Checkbox"];
-const themes = ["Black", "Blue", "Cyan", "Green"];
+const themes = ["Blue", "Green", "Dark"];
 yup.addMethod(yup.array, "unique", function (message, path) {
 	return this.test("unique", message, function (list) {
 		const mapper = (x) => get(x, path);
@@ -87,7 +87,7 @@ const validationSchema = yup.object().shape({
 });
 const initialValues = {
 	formName: "ConFo Meta",
-	chatTheme: "Black",
+	chatTheme: "Blue",
 	description: "",
 	disableEditResponses: true,
 	questions: [
