@@ -143,8 +143,8 @@ const AdminForm = () => {
 								<FormControl>
 									<InputLabel>Edit Form Response </InputLabel>
 									<FastField as={Select} name="disableEditResponses" value={values.disableEditResponses} align="left">
-										<MenuItem value={false}>{'Enable'}</MenuItem>
-                    <MenuItem value={true}>{'Disable'}</MenuItem>
+										<MenuItem value={false}>{"Enable"}</MenuItem>
+										<MenuItem value={true}>{"Disable"}</MenuItem>
 									</FastField>
 								</FormControl>
 								<FormControl required>
