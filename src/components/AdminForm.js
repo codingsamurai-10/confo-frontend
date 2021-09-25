@@ -62,15 +62,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const answerFormats = [
-  "Text Input",
-  "Phone Number",
-  "Email",
-  "Number",
-  "File Upload",
-  "Address",
-  "DateTime",
-  "Radio",
-  "Checkbox",
+  "text",
+  "tel",
+  "email",
+  "number",
+  "file",
+  "address",
+  "datetime",
+  "radio",
+  "checkbox",
 ];
 const themes = ["Blue", "Green", "Dark"];
 yup.addMethod(yup.array, "unique", function (message, path) {
@@ -345,8 +345,8 @@ const AdminForm = () => {
                                   )}
                               </>
                             )) ||
-                            ((formField.answerFormat === "Phone Number" ||
-                              formField.answerFormat === "Email") && (
+                            ((formField.answerFormat === "tel" ||
+                              formField.answerFormat === "email") && (
                               <>
                                 <Button
                                   variant="outlined"
@@ -468,7 +468,7 @@ const AdminForm = () => {
                                 )}
                               </>
                             )) ||
-                            (formField.answerFormat === "Number" && (
+                            (formField.answerFormat === "number" && (
                               <>
                                 <Button
                                   variant="outlined"
