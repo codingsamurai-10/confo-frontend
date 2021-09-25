@@ -19,7 +19,7 @@ export default function AlertDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"Share this link with your users"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
