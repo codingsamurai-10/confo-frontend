@@ -18,7 +18,7 @@ import {
   FormControlLabel,
   Switch,
 } from "@material-ui/core";
-
+import axios from "axios";
 import FormUrlDialog from "./FormUrlDialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,18 +116,14 @@ const initialValues = {
 const AdminForm = () => {
   const classes = useStyles();
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [formUrl, setFormUrl] = React.useState("");
 
   const onSubmit = async (values) => {
-    const json = JSON.stringify(values, null, 2);
-    const res = await fetch("http://localhost:5000/api/form/metadata", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: json,
-    });
-    console.log(res);
+    axios
+      .post("http://localhost:5000/api/form/metadata", values)
+      .then((res) => {
+        setFormUrl(res.data.formUrl);
+      });
     setOpenDialog(true);
   };
   const handleClose = () => {
@@ -139,7 +135,7 @@ const AdminForm = () => {
       <FormUrlDialog
         open={openDialog}
         handleClose={handleClose}
-        formUrl={"confo awesome"}
+        formUrl={formUrl}
       />
       <Typography
         variant="h3"
