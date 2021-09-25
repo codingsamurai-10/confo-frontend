@@ -91,6 +91,15 @@ export default function LiveForm(props) {
         >
           {props.metadata.formName}
         </Typography>
+        <Typography
+          component="h7"
+          variant="h7"
+          align="left"
+          color="secondary"
+          gutterBottom
+        >
+          {props.metadata.description}
+        </Typography>
       </div>
       <div className={classes.heroContent}>
         <Container align="left">
