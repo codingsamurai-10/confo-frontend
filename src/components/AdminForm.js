@@ -18,6 +18,9 @@ import {
   FormControlLabel,
   Switch,
 } from "@material-ui/core";
+
+import FormUrlDialog from "./FormUrlDialog";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
@@ -110,24 +113,34 @@ const initialValues = {
     },
   ],
 };
-const onSubmit = async (values) => {
-  console.log("Form metadata\n");
-  const json = JSON.stringify(values, null, 2);
-  console.log(json);
-  const res = await fetch("http://localhost:5000/api/form/metadata", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: json,
-  });
-  console.log(res);
-};
 const AdminForm = () => {
   const classes = useStyles();
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const onSubmit = async (values) => {
+    const json = JSON.stringify(values, null, 2);
+    const res = await fetch("http://localhost:5000/api/form/metadata", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json,
+    });
+    console.log(res);
+    setOpenDialog(true);
+  };
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div>
+      <FormUrlDialog
+        open={openDialog}
+        handleClose={handleClose}
+        formUrl={"confo awesome"}
+      />
       <Typography
         variant="h3"
         align="center"
