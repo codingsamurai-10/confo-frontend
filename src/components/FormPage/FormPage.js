@@ -212,7 +212,7 @@ export default function FormPage(props) {
     <div>
       {formMetadata && (
         <div>
-          <LiveForm userData={userData} questions={formMetadata.questions} />
+          <LiveForm userData={userData} metadata={formMetadata} />
           <Form
             questions={formMetadata.questions}
             flowStepCallback={flowStepCallback}
