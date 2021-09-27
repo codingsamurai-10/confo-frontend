@@ -65,15 +65,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const answerFormats = [
-  "text",
-  "tel",
-  "email",
-  "number",
-  "file",
-  "address",
-  "datetime",
-  "radio",
-  "checkbox",
+  "Text Input",
+  "Phone Number",
+  "Email",
+  "Number",
+  "File Upload",
+  "Address",
+  "DateTime",
+  "Radio",
+  "Checkbox",
 ];
 const themes = ["Blue", "Green", "Dark"];
 yup.addMethod(yup.array, "unique", function (message, path) {
