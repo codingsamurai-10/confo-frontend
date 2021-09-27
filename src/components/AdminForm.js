@@ -295,7 +295,7 @@ const AdminForm = () => {
                                     replace(
                                       index,
                                       Object.assign(
-                                        { valueOptions: [""] },
+                                        { children: [""] },
                                         newObject
                                       )
                                     );
@@ -303,11 +303,11 @@ const AdminForm = () => {
                                 >
                                   Confirm MultiSelect Field
                                 </Button>
-                                {formField.hasOwnProperty("valueOptions") &&
-                                  formField.valueOptions.map(
+                                {formField.hasOwnProperty("children") &&
+                                  formField.children.map(
                                     (child, childIndex) => (
                                       <FieldArray
-                                        name={`questions.${index}.valueOptions`}
+                                        name={`questions.${index}.children`}
                                       >
                                         {({ insert, remove }) => (
                                           <>
@@ -320,7 +320,7 @@ const AdminForm = () => {
                                                 required
                                                 label="Option Label"
                                                 variant="outlined"
-                                                name={`questions.${index}.valueOptions.${childIndex}`}
+                                                name={`questions.${index}.children.${childIndex}`}
                                               ></FastField>
                                             </FormControl>
                                             <ButtonGroup>
