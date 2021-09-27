@@ -69,8 +69,6 @@ const answerFormats = [
   "tel",
   "email",
   "number",
-  "file",
-  "address",
   "datetime",
   "radio",
   "checkbox",
@@ -284,8 +282,8 @@ const AdminForm = () => {
                             ></FastField>
                           </FormControl>
                           {(formField.answerFormat &&
-                            (formField.answerFormat === "Radio" ||
-                              formField.answerFormat === "Checkbox") && (
+                            (formField.answerFormat === "radio" ||
+                              formField.answerFormat === "checkbox") && (
                               <>
                                 <Button
                                   variant="outlined"
