@@ -7,7 +7,7 @@ import LiveForm from "../LiveForm/LiveForm";
  * Form page interface
  * @returns Div element containing the entire form functionality
  */
-export default function FormPage() {
+export default function FormPage(props) {
   const [userData, setUserData] = React.useState({});
   const [formMetadata, setFormMetadata] = React.useState(null);
   const rawFormMetadata = React.useRef(null);
@@ -18,7 +18,7 @@ export default function FormPage() {
    */
   const fetchFormMetadata = async () => {
     const response = await fetch(
-      "http://localhost:5000/api/form/614cce95535fcd45db6800e6"
+      "http://localhost:5000/api/form/metadata/" + props.match.params.id
     );
     const data = await response.json();
     rawFormMetadata.current = data;
@@ -119,6 +119,7 @@ export default function FormPage() {
   const isInputValid = (dto) => {
     if (dto.tag.type === "email") return isValidEmail(dto.text);
     if (dto.tag.type === "tel") return isValidPhoneNumber(dto.text);
+    // TODO: verify min and max of type number
     return true;
   };
 
@@ -211,7 +212,7 @@ export default function FormPage() {
     <div>
       {formMetadata && (
         <div>
-          <LiveForm userData={userData} questions={formMetadata.questions} />
+          <LiveForm userData={userData} metadata={formMetadata} />
           <Form
             questions={formMetadata.questions}
             flowStepCallback={flowStepCallback}

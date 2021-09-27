@@ -9,7 +9,7 @@ const Routing = () => {
     <Fade>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/FormPage" component={FormPage} />
+        <Route exact path="/FormPage/:id" component={FormPage} />
         <Route exact path="/AdminForm" component={AdminForm} />
       </Switch>
     </Fade>

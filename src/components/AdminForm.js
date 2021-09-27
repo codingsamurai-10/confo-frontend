@@ -18,6 +18,9 @@ import {
   FormControlLabel,
   Switch,
 } from "@material-ui/core";
+import axios from "axios";
+import FormUrlDialog from "./FormUrlDialog";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
@@ -110,24 +113,30 @@ const initialValues = {
     },
   ],
 };
-const onSubmit = async (values) => {
-  console.log("Form metadata\n");
-  const json = JSON.stringify(values, null, 2);
-  console.log(json);
-  const res = await fetch("http://localhost:5000/api/form/metadata", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: json,
-  });
-  console.log(res);
-};
 const AdminForm = () => {
   const classes = useStyles();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [formUrl, setFormUrl] = React.useState("");
+
+  const onSubmit = async (values) => {
+    axios
+      .post("http://localhost:5000/api/form/metadata", values)
+      .then((res) => {
+        setFormUrl(res.data.formUrl);
+      });
+    setOpenDialog(true);
+  };
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <div>
+      <FormUrlDialog
+        open={openDialog}
+        handleClose={handleClose}
+        formUrl={formUrl}
+      />
       <Typography
         variant="h3"
         align="center"
@@ -345,8 +354,8 @@ const AdminForm = () => {
                                   )}
                               </>
                             )) ||
-                            ((formField.answerFormat === "Phone Number" ||
-                              formField.answerFormat === "Email") && (
+                            ((formField.answerFormat === "tel" ||
+                              formField.answerFormat === "email") && (
                               <>
                                 <Button
                                   variant="outlined"
@@ -468,7 +477,7 @@ const AdminForm = () => {
                                 )}
                               </>
                             )) ||
-                            (formField.answerFormat === "Number" && (
+                            (formField.answerFormat === "number" && (
                               <>
                                 <Button
                                   variant="outlined"

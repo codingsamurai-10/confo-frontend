@@ -89,7 +89,16 @@ export default function LiveForm(props) {
           color="secondary"
           gutterBottom
         >
-          Your form
+          {props.metadata.formName}
+        </Typography>
+        <Typography
+          component="h7"
+          variant="h7"
+          align="left"
+          color="secondary"
+          gutterBottom
+        >
+          {props.metadata.description}
         </Typography>
       </div>
       <div className={classes.heroContent}>
@@ -97,7 +106,7 @@ export default function LiveForm(props) {
           <Paper elevation={3}>
             <Typography variant="h9" align="left" color="primary" gutterBottom>
               <ol type="1">
-                {props.questions.map((field, index) => (
+                {props.metadata.questions.map((field, index) => (
                   <li key={index}>
                     <Typography variant="h9" color="primary" gutterBottom>
                       <h3>{field["cf-questions"]}</h3>
