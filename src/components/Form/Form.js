@@ -19,7 +19,7 @@ class Form extends React.Component {
    */
   submitCallback() {
     this.cf.addRobotChatResponse("Thank you for filling out the form!");
-    const userData = this.cf.getFormData(true);
+    const userData = this.props.userData;
     userData.formId = this.props.formId;
     axios.post("http://localhost:5000/api/form/response", userData);
   }

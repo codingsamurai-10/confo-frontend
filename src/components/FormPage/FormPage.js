@@ -214,6 +214,7 @@ export default function FormPage(props) {
         <div>
           <LiveForm userData={userData} metadata={formMetadata} />
           <Form
+            userData={userData}
             questions={formMetadata.questions}
             flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
