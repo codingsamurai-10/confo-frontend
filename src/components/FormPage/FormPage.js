@@ -217,6 +217,7 @@ export default function FormPage(props) {
             questions={formMetadata.questions}
             flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
+            formId={props.match.params.id}
           />
           <FileUpload open={true} />
         </div>
