@@ -220,7 +220,7 @@ export default function FormPage(props) {
             chatTheme={formMetadata.chatTheme}
             formId={props.match.params.id}
           />
-          <FileUpload open={true} />
+          <FileUpload open={false} />
         </div>
       )}
     </div>
