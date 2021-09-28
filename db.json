@@ -5,6 +5,12 @@
     "questions": [
       {
         "tag": "input",
+        "type": "datetime",
+        "name": "dob",
+        "cf-questions": "Please enter your dob"
+      },
+      {
+        "tag": "input",
         "type": "file",
         "name": "resume",
         "cf-questions": "Please upload your resume"
