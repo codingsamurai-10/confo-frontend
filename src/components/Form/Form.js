@@ -6,6 +6,7 @@ import {
 } from "conversational-form";
 import MicrophoneInputConfig from "./MicrophoneInputConfig";
 import axios from "axios";
+import { DatePicker } from "@material-ui/pickers";
 
 /**
  * Conversational form interface
@@ -34,11 +35,12 @@ class Form extends React.Component {
   initializeForm() {
     var dispatcher = new EventDispatcher();
     const fileUpload = this.props.handleFileUpload;
+    const datePicker = this.props.handleDatePicker;
     dispatcher.addEventListener(
       FlowEvents.FLOW_UPDATE,
       function (event) {
-        if (event.detail.tag.type === "datetime") {
-          console.log("opening datetime");
+        if (event.detail.tag.type === "text") {
+          datePicker();
         }
         if (event.detail.tag.type === "file") {
           fileUpload();
