@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
     "@material-ui/core": "^4.12.3",
+    "@material-ui/pickers": "^3.3.10",
     "@uppy/box": "^1.0.2",
     "@uppy/core": "^2.0.3",
     "@uppy/drop-target": "^1.0.2",
@@ -20,6 +22,7 @@
     "@uppy/webcam": "^2.0.2",
     "axios": "^0.21.4",
     "conversational-form": "^1.0.2",
+    "date-fns": "^2.24.0",
     "formik": "^2.2.9",
     "lodash.get": "^4.4.2",
     "react": "^17.0.2",

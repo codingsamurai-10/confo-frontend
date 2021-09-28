@@ -2,6 +2,7 @@ import React from "react";
 import Form from "../Form/Form";
 import FileUpload from "../Form/FileUpload";
 import LiveForm from "../LiveForm/LiveForm";
+import DatePicker from "../Form/DatePicker";
 
 /**
  * Form page interface
@@ -11,6 +12,8 @@ export default function FormPage(props) {
   const [userData, setUserData] = React.useState({});
   const [formMetadata, setFormMetadata] = React.useState(null);
   const [openFileUpload, setOpenFileUpload] = React.useState(false);
+  const [openDatePicker, setOpenDatePicker] = React.useState(false);
+
   const rawFormMetadata = React.useRef(null);
   const localStorageKey = React.useRef("confo-form-");
 
@@ -221,7 +224,10 @@ export default function FormPage(props) {
             chatTheme={formMetadata.chatTheme}
             formId={props.match.params.id}
             handleFileUpload={() => setOpenFileUpload(true)}
+            handleDatePicker={() => setOpenDatePicker(true)}
+
           />
+          <DatePicker open={openDatePicker} />
           <FileUpload open={openFileUpload} />
         </div>
       )}
