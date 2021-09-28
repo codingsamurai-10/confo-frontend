@@ -388,7 +388,7 @@ const AdminForm = () => {
                                 )}
                               </>
                             )) ||
-                            (formField.answerFormat === "DateTime" && (
+                            (formField.answerFormat === "datetime" && (
                               <>
                                 <Button
                                   variant="outlined"
