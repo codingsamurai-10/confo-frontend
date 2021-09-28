@@ -13,7 +13,7 @@ export default function FormPage(props) {
   const [formMetadata, setFormMetadata] = React.useState(null);
   const [openFileUpload, setOpenFileUpload] = React.useState(false);
   const [openDatePicker, setOpenDatePicker] = React.useState(false);
-
+  const [date, setDate] = React.useState(null);
   const rawFormMetadata = React.useRef(null);
   const localStorageKey = React.useRef("confo-form-");
 
@@ -228,9 +228,9 @@ export default function FormPage(props) {
             formId={props.match.params.id}
             handleFileUpload={() => setOpenFileUpload(true)}
             handleDatePicker={() => setOpenDatePicker(true)}
-
           />
-          <DatePicker open={openDatePicker} onClose={handleClose} />
+          <DatePicker handleDate={(date)=>setDate(date)} open={openDatePicker} onClose={handleClose} />
+          {console.log(date)}
           <FileUpload open={openFileUpload} />
         </div>
       )}
