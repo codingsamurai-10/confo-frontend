@@ -10,6 +10,7 @@ import LiveForm from "../LiveForm/LiveForm";
 export default function FormPage(props) {
   const [userData, setUserData] = React.useState({});
   const [formMetadata, setFormMetadata] = React.useState(null);
+  const [openFileUpload, setOpenFileUpload] = React.useState(false);
   const rawFormMetadata = React.useRef(null);
   const localStorageKey = React.useRef("confo-form-");
 
@@ -219,8 +220,9 @@ export default function FormPage(props) {
             flowStepCallback={flowStepCallback}
             chatTheme={formMetadata.chatTheme}
             formId={props.match.params.id}
+            handleFileUpload={() => setOpenFileUpload(true)}
           />
-          <FileUpload open={false} />
+          <FileUpload open={openFileUpload} />
         </div>
       )}
     </div>

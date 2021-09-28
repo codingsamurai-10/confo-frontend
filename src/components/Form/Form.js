@@ -1,5 +1,9 @@
 import React from "react";
-import { ConversationalForm } from "conversational-form";
+import {
+  ConversationalForm,
+  EventDispatcher,
+  FlowEvents,
+} from "conversational-form";
 import MicrophoneInputConfig from "./MicrophoneInputConfig";
 import axios from "axios";
 
@@ -28,6 +32,20 @@ class Form extends React.Component {
    * Initialize the form and add it to DOM
    */
   initializeForm() {
+    var dispatcher = new EventDispatcher();
+    const fileUpload = this.props.handleFileUpload;
+    dispatcher.addEventListener(
+      FlowEvents.FLOW_UPDATE,
+      function (event) {
+        if (event.detail.tag.type === "datetime") {
+          console.log("opening datetime");
+        }
+        if (event.detail.tag.type === "file") {
+          fileUpload();
+        }
+      },
+      false
+    );
     this.cf = ConversationalForm.startTheConversation({
       options: {
         submitCallback: this.submitCallback,
@@ -35,6 +53,7 @@ class Form extends React.Component {
         microphoneInput: MicrophoneInputConfig,
         theme: this.props.chatTheme.toLowerCase(),
         showProgressBar: true,
+        eventDispatcher: dispatcher,
       },
       tags: this.props.questions,
     });
