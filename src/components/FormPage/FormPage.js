@@ -17,9 +17,10 @@ export default function FormPage(props) {
   const rawFormMetadata = React.useRef(null);
   const localStorageKey = React.useRef("confo-form-");
 
-  const handleClose = (value) =>{
+  const handleClose = (value) => {
     setOpenDatePicker(false);
-  }
+    console.log(value);
+  };
   /**
    * Fetch form metadata
    */
@@ -35,14 +36,16 @@ export default function FormPage(props) {
    * Set localstorage key which will be used to access saved data unique to this form
    */
   const setLocalStorageKey = () => {
-    localStorageKey.current += rawFormMetadata.current.id;
+    localStorageKey.current += rawFormMetadata.current._id;
   };
 
   /**
    * Prefill values in the form if they already exist
    */
   const prefillInputWithExistingData = () => {
-    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
+    const existingData = JSON.parse(
+      localStorage.getItem(localStorageKey.current)
+    );
     rawFormMetadata.current.questions.forEach((field) => {
       if (existingData && existingData.hasOwnProperty(field["name"])) {
         if (field.tag === "fieldset") {
@@ -147,10 +150,12 @@ export default function FormPage(props) {
    * @param {string} inputData Value of input field
    */
   const saveInfo = (tagName, inputData) => {
-    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
+    const existingData = JSON.parse(
+      localStorage.getItem(localStorageKey.current)
+    );
     const newData = { [tagName]: inputData };
     const finalData = Object.assign(existingData ? existingData : {}, newData);
-    localStorage.setItem(localStorageKey, JSON.stringify(finalData));
+    localStorage.setItem(localStorageKey.current, JSON.stringify(finalData));
   };
 
   /**
@@ -172,11 +177,13 @@ export default function FormPage(props) {
    * @param {Object} dto Information about input field and value
    */
   const saveGroupInfo = (dto) => {
-    const existingData = JSON.parse(localStorage.getItem(localStorageKey));
+    const existingData = JSON.parse(
+      localStorage.getItem(localStorageKey.current)
+    );
     const checkedFields = getCheckedFields(dto);
     const newData = { [dto.tag.name]: checkedFields };
     const finalData = Object.assign(existingData ? existingData : {}, newData);
-    localStorage.setItem(localStorageKey, JSON.stringify(finalData));
+    localStorage.setItem(localStorageKey.current, JSON.stringify(finalData));
   };
 
   /**
@@ -228,7 +235,6 @@ export default function FormPage(props) {
             formId={props.match.params.id}
             handleFileUpload={() => setOpenFileUpload(true)}
             handleDatePicker={() => setOpenDatePicker(true)}
-
           />
           <DatePicker open={openDatePicker} onClose={handleClose} />
           <FileUpload open={openFileUpload} />

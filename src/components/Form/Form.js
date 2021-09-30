@@ -40,7 +40,7 @@ class Form extends React.Component {
       FlowEvents.FLOW_UPDATE,
       function (event) {
         if (event.detail.tag.type === "text") {
-          datePicker();
+          // datePicker();
         }
         if (event.detail.tag.type === "file") {
           fileUpload();

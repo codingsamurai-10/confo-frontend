@@ -64,15 +64,7 @@ const useStyles = makeStyles((theme) => ({
     float: "right",
   },
 }));
-const answerFormats = [
-  "text",
-  "tel",
-  "email",
-  "number",
-  "datetime",
-  "radio",
-  "checkbox",
-];
+const answerFormats = ["text", "tel", "email", "number", "radio", "checkbox"];
 const themes = ["Blue", "Green", "Dark"];
 yup.addMethod(yup.array, "unique", function (message, path) {
   return this.test("unique", message, function (list) {
@@ -176,18 +168,6 @@ const AdminForm = () => {
                 />
               </FormControl>
               <Paper className={classes.formControl}>
-                <FormControl>
-                  <InputLabel>Edit Form Response </InputLabel>
-                  <FastField
-                    as={Select}
-                    name="disableEditResponses"
-                    value={values.disableEditResponses}
-                    align="left"
-                  >
-                    <MenuItem value={false}>{"Enable"}</MenuItem>
-                    <MenuItem value={true}>{"Disable"}</MenuItem>
-                  </FastField>
-                </FormControl>
                 <FormControl required>
                   <InputLabel>Theme</InputLabel>
                   <FastField
